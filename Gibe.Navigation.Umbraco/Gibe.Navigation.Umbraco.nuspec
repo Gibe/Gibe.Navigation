@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Gibe.Navigation.Umbraco</id>
+    <version>$version$</version>
+    <authors>Gibe Digital Ltd</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Navigation provider for Umbraco
+    </description>
+		<dependencies>
+			<dependency id="Gibe.Navigation" version="$version$" />
+			<dependency id="Gibe.DittoProcessors" version="1.0.0" />
+			<dependency id="Gibe.DittoServices" version="1.0.1" />
+			<dependency id="Our.Umbraco.Ditto" version="0.8.4" />
+			<dependency id="Gibe.UmbracoWrappers" version="1.3.2.0" />
+			<dependency id="UmbracoCms.Core" version="7.4.3" />
+		</dependencies>
+	</metadata>
+  <files>
+    <file src="bin\Release\Gibe.Navigation.Umbraco.dll" target="lib" />
+  </files>
+</package>
