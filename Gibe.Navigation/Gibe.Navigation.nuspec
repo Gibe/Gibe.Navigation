@@ -9,7 +9,7 @@
       Base classes for navigation
     </description>
 		<dependencies>
-			<dependency id="Gibe.Caching" version="$version$" />
+			<dependency id="Gibe.Caching" version="1.0.251" />
 		</dependencies>
 	</metadata>
   <files>
