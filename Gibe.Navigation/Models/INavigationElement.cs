@@ -12,7 +12,7 @@ namespace Gibe.Navigation.Models
 		string NavTitle { get; }
 		string Url { get; }
 		bool IsActive { get; set; }
-		List<INavigationElement> Items { get; set; }
+		IEnumerable<INavigationElement> Items { get; set; }
 		string Target { get; }
 		bool IsVisible { get; set; }
 		bool IsConcrete { get; }

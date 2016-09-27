@@ -26,7 +26,7 @@ namespace Gibe.Navigation.Umbraco.Models
 		public string Url => Redirect.Url; 
 
 		public bool IsActive { get; set; }
-		public List<INavigationElement> Items { get; set; }
+		public IEnumerable<INavigationElement> Items { get; set; }
 
 		[DittoIgnore]
 		public string Target => Redirect.Target;

@@ -15,7 +15,7 @@ namespace Gibe.Navigation.Umbraco.Models
 		public string NavTitle { get; set; }
 		public string Url { get; set; }
 		public bool IsActive { get; set; }
-		public List<INavigationElement> Items { get; set; }
+		public IEnumerable<INavigationElement> Items { get; set; }
 		public string Target => "_self";
 		public bool IsVisible { get; set; }
 		public bool IsConcrete => true;

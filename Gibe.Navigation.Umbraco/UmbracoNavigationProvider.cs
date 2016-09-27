@@ -10,7 +10,7 @@ using Umbraco.Core.Models;
 
 namespace Gibe.Navigation.Umbraco
 {
-	public class NavigationProvider<T> : INavigationProvider<T> where T : INavigationElement
+	public class UmbracoNavigationProvider<T> : INavigationProvider<T> where T : INavigationElement
 	{
 		private readonly IModelConverter _modelConverter;
 		private readonly IUmbracoNodeService _umbracoNodeService;
@@ -18,7 +18,7 @@ namespace Gibe.Navigation.Umbraco
 		private readonly INodeTypeFactory _nodeTypeFactory;
 		public int Priority { get; }
 
-		public NavigationProvider(
+		public UmbracoNavigationProvider(
 			IModelConverter modelConverter,
 			IUmbracoNodeService umbracoNodeService,
 			IUmbracoWrapper umbracoWrapper,
