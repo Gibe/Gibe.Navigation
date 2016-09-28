@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultNavigationService.cs" />
+    <Compile Include="Filter\INavigationFilter.cs" />
     <Compile Include="INavigationProvider.cs" />
     <Compile Include="INavigationService.cs" />
     <Compile Include="Models\INavigationElement.cs" />

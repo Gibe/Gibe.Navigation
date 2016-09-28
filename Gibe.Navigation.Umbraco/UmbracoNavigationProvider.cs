@@ -41,7 +41,8 @@ namespace Gibe.Navigation.Umbraco
 		public IEnumerable<T> GetNavigationElements(IPublishedContent content)
 		{
 			var children = content.Children.Where(
-						c => HasTemplate(c) || IsRedirect(c));
+						c => (HasTemplate(c) || IsRedirect(c))
+						&& IncludeInNavigation(c));
 
 			var navItems = children.Select(ToNavigationElement);
 
@@ -83,7 +84,12 @@ namespace Gibe.Navigation.Umbraco
 			return content.TemplateId != 0;
 		}
 
-		private bool ShowInNavigation(IPublishedContent content)
+		protected virtual bool IncludeInNavigation(IPublishedContent content)
+		{
+			return true;
+		}
+
+		protected virtual bool ShowInNavigation(IPublishedContent content)
 		{
 			return _umbracoWrapper.HasValue(content, "umbracoNaviHide") &&
 						 !_umbracoWrapper.GetPropertyValue<bool>(content, "umbracoNaviHide");
