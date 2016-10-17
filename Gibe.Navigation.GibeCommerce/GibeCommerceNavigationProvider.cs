@@ -37,7 +37,7 @@ namespace Gibe.Navigation.GibeCommerce
             return new SubNavigationModel<T>
             {
                 SectionParent = ToNavigationElement(parent),
-                NavigationElements = children.Select(x => (T) ToNavigationElement(x))
+                NavigationElements = children.Select(x => (T) ToNavigationElement(x)).ToList()
             };
         }
 
