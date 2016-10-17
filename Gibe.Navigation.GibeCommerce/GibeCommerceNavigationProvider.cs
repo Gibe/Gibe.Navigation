@@ -31,9 +31,8 @@ namespace Gibe.Navigation.GibeCommerce
         public SubNavigationModel<T> GetSubNavigation(string url)
         {
             var categories = _catalogService.GetAllCategories();
-            var parent =
-                categories.First(x => IncludeInNavigation(x) && _urlProvider.GetUrl(x, UrlProviderMode.Relative) == url);
-            var children = _catalogService.GetSubCategories(parent.Name);
+            var parent = categories.First(x => IncludeInNavigation(x) && _urlProvider.GetUrl(x, UrlProviderMode.Relative) == url);
+            var children = _catalogService.GetSubCategories(parent.Name).Where(IncludeInNavigation);
 
             return new SubNavigationModel<T>
             {
