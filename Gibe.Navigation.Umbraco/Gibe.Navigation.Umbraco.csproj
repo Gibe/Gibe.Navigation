@@ -70,8 +70,8 @@
       <HintPath>..\packages\Examine.0.1.68.0\lib\Examine.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Gibe.DittoProcessors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gibe.DittoProcessors.1.0.0\lib\Gibe.DittoProcessors.dll</HintPath>
+    <Reference Include="Gibe.DittoProcessors, Version=14.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gibe.DittoProcessors.1.1.4\lib\Gibe.DittoProcessors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Gibe.DittoServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
