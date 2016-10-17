@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Gibe.Navigation.GibeCommerce.Models;
 using Gibe.Navigation.Models;
-using Gibe.Urls;
 using GibeCommerce.CatalogSystem;
-using GibeCommerce.CatalogSystem.Data;
 using GibeCommerce.SiteServices.UrlProviders;
 
 namespace Gibe.Navigation.GibeCommerce
@@ -27,13 +24,21 @@ namespace Gibe.Navigation.GibeCommerce
         {
             var categories = _catalogService.GetSubCategories("root")
                 .Where(x => x.Name != "root" && IncludeInNavigation(x));
-            
-            return categories.OrderBy(x => x.Rank).Select(x => (T)ToNavigationElement(x)).ToList();
+
+            return categories.OrderBy(x => x.Rank).Select(x => (T) ToNavigationElement(x)).ToList();
         }
 
         public SubNavigationModel<T> GetSubNavigation(string url)
         {
-            throw new NotImplementedException();
+            var categories = _catalogService.GetAllCategories();
+            var parent = categories.First(x => _urlProvider.GetUrl(x, UrlProviderMode.Relative) == url);
+            var children = _catalogService.GetSubCategories(parent.Name);
+
+            return new SubNavigationModel<T>
+            {
+                SectionParent = ToNavigationElement(parent),
+                NavigationElements = children.Select(x => (T) ToNavigationElement(x))
+            };
         }
 
         public int Priority { get; }
