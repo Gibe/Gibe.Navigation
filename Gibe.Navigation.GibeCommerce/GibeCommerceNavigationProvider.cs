@@ -11,7 +11,6 @@ namespace Gibe.Navigation.GibeCommerce
     {
         private readonly ICatalogService _catalogService;
         private readonly IUrlProvider _urlProvider;
-        // URL provider
 
         public GibeCommerceNavigationProvider(ICatalogService catalogService, int priority, IUrlProvider urlProvider)
         {
@@ -48,7 +47,6 @@ namespace Gibe.Navigation.GibeCommerce
             return new GibeCommerceNavigationElement
             {
                 Title = category.PageTitle,
-                IsActive = false,
                 IsVisible = ShowInNavigation(category),
                 NavTitle = category.DisplayName,
                 Items = _catalogService.GetSubCategories(category.Name).Select(ToNavigationElement),
