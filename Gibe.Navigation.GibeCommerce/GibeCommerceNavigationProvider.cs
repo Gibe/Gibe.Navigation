@@ -50,7 +50,7 @@ namespace Gibe.Navigation.GibeCommerce
                 IsVisible = ShowInNavigation(category),
                 NavTitle = category.DisplayName,
                 Items = _catalogService.GetSubCategories(category.Name).Select(ToNavigationElement),
-                Url = _urlProvider.GetUrl(category, UrlProviderMode.Relative)
+                Url = GetUrl(category)
             };
         }
 
@@ -62,6 +62,11 @@ namespace Gibe.Navigation.GibeCommerce
         protected virtual bool ShowInNavigation(Category category)
         {
             return true;
+        }
+
+        protected virtual string GetUrl(Category category)
+        {
+            return _urlProvider.GetUrl(category, UrlProviderMode.Relative);
         }
     }
 }
