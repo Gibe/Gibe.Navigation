@@ -14,39 +14,30 @@ namespace Gibe.Navigation.Umbraco
     {
         private readonly IModelConverter _modelConverter;
         private readonly INodeTypeFactory _nodeTypeFactory;
+        private readonly int _priority;
         private readonly Type _rootNodeType;
         private readonly IUmbracoNodeService _umbracoNodeService;
         private readonly IUmbracoWrapper _umbracoWrapper;
 
         public UmbracoNavigationProvider(
-            IModelConverter modelConverter,
-            IUmbracoNodeService umbracoNodeService,
-            IUmbracoWrapper umbracoWrapper,
-            INodeTypeFactory nodeTypeFactory, 
+            IModelConverter modelConverter, IUmbracoNodeService umbracoNodeService,
+            IUmbracoWrapper umbracoWrapper, INodeTypeFactory nodeTypeFactory, 
             int priority)
         {
             _modelConverter = modelConverter;
             _umbracoNodeService = umbracoNodeService;
             _umbracoWrapper = umbracoWrapper;
-            Priority = priority;
-            _rootNodeType = typeof(SettingsNodeType);
             _nodeTypeFactory = nodeTypeFactory;
+            _priority = priority;
         }
 
         public UmbracoNavigationProvider(
-            IModelConverter modelConverter,
-            IUmbracoNodeService umbracoNodeService,
-            IUmbracoWrapper umbracoWrapper,
-            INodeTypeFactory nodeTypeFactory,
-            int priority,
-            Type rootNodeType)
+            IModelConverter modelConverter, IUmbracoNodeService umbracoNodeService,
+            IUmbracoWrapper umbracoWrapper, INodeTypeFactory nodeTypeFactory,
+            int priority, Type rootNodeType) 
+            : this(modelConverter, umbracoNodeService, umbracoWrapper, nodeTypeFactory, priority)
         {
-            _modelConverter = modelConverter;
-            _umbracoNodeService = umbracoNodeService;
-            _umbracoWrapper = umbracoWrapper;
-            Priority = priority;
             _rootNodeType = rootNodeType;
-            _nodeTypeFactory = nodeTypeFactory;
         }
 
         public int Priority { get; }
