@@ -10,5 +10,7 @@ namespace Gibe.Navigation.Umbraco
 	public interface INodeTypeFactory
 	{
 		INodeType GetNodeType<T>() where T : INodeType;
+
+	    INodeType GetNodeType(Type T);
 	}
 }

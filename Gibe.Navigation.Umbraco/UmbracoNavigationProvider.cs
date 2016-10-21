@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gibe.DittoServices.ModelConverters;
 using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.Models;
-using Gibe.Navigation.Umbraco.NodeTypes;
 using Gibe.UmbracoWrappers;
 using Umbraco.Core.Models;
 
@@ -12,7 +12,8 @@ namespace Gibe.Navigation.Umbraco
     public class UmbracoNavigationProvider<T> : INavigationProvider<T> where T : INavigationElement
     {
         private readonly IModelConverter _modelConverter;
-        private readonly INodeType _rootNode;
+        private readonly INodeTypeFactory _nodeTypeFactory;
+        private readonly Type _rootNode;
         private readonly IUmbracoNodeService _umbracoNodeService;
         private readonly IUmbracoWrapper _umbracoWrapper;
 
@@ -20,20 +21,21 @@ namespace Gibe.Navigation.Umbraco
             IModelConverter modelConverter,
             IUmbracoNodeService umbracoNodeService,
             IUmbracoWrapper umbracoWrapper,
-            int priority, INodeType rootNode)
+            int priority, Type rootNode, INodeTypeFactory nodeTypeFactory)
         {
             _modelConverter = modelConverter;
             _umbracoNodeService = umbracoNodeService;
             _umbracoWrapper = umbracoWrapper;
             Priority = priority;
             _rootNode = rootNode;
+            _nodeTypeFactory = nodeTypeFactory;
         }
 
         public int Priority { get; }
 
         public IEnumerable<T> GetNavigationElements()
         {
-            var topLevel = _umbracoNodeService.GetNode(_rootNode);
+            var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNode));
             return GetNavigationElements(topLevel);
         }
 
