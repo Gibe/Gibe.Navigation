@@ -4,6 +4,7 @@ using System.Linq;
 using Gibe.DittoServices.ModelConverters;
 using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.Models;
+using Gibe.Navigation.Umbraco.NodeTypes;
 using Gibe.UmbracoWrappers;
 using Umbraco.Core.Models;
 
@@ -13,7 +14,7 @@ namespace Gibe.Navigation.Umbraco
     {
         private readonly IModelConverter _modelConverter;
         private readonly INodeTypeFactory _nodeTypeFactory;
-        private readonly Type _rootNode;
+        private readonly Type _rootNodeType;
         private readonly IUmbracoNodeService _umbracoNodeService;
         private readonly IUmbracoWrapper _umbracoWrapper;
 
@@ -21,13 +22,30 @@ namespace Gibe.Navigation.Umbraco
             IModelConverter modelConverter,
             IUmbracoNodeService umbracoNodeService,
             IUmbracoWrapper umbracoWrapper,
-            int priority, Type rootNode, INodeTypeFactory nodeTypeFactory)
+            INodeTypeFactory nodeTypeFactory, 
+            int priority)
         {
             _modelConverter = modelConverter;
             _umbracoNodeService = umbracoNodeService;
             _umbracoWrapper = umbracoWrapper;
             Priority = priority;
-            _rootNode = rootNode;
+            _rootNodeType = typeof(SettingsNodeType);
+            _nodeTypeFactory = nodeTypeFactory;
+        }
+
+        public UmbracoNavigationProvider(
+            IModelConverter modelConverter,
+            IUmbracoNodeService umbracoNodeService,
+            IUmbracoWrapper umbracoWrapper,
+            INodeTypeFactory nodeTypeFactory,
+            int priority,
+            Type rootNodeType)
+        {
+            _modelConverter = modelConverter;
+            _umbracoNodeService = umbracoNodeService;
+            _umbracoWrapper = umbracoWrapper;
+            Priority = priority;
+            _rootNodeType = rootNodeType;
             _nodeTypeFactory = nodeTypeFactory;
         }
 
@@ -35,7 +53,7 @@ namespace Gibe.Navigation.Umbraco
 
         public IEnumerable<T> GetNavigationElements()
         {
-            var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNode));
+            var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType));
             return GetNavigationElements(topLevel);
         }
 

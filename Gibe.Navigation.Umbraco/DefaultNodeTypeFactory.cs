@@ -19,9 +19,9 @@ namespace Gibe.Navigation.Umbraco
             return _nodeTypes[typeof(T)];
         }
 
-        public INodeType GetNodeType(Type T)
+        public INodeType GetNodeType(Type t)
         {
-            return _nodeTypes[T];
+            return _nodeTypes[t];
         }
     }
 }
