@@ -21,21 +21,22 @@ namespace Gibe.Navigation.Umbraco
         public UmbracoNavigationProvider(
             IModelConverter modelConverter, IUmbracoNodeService umbracoNodeService,
             IUmbracoWrapper umbracoWrapper, INodeTypeFactory nodeTypeFactory, 
-            int priority)
+            int priority) 
+            : this(modelConverter, umbracoNodeService, umbracoWrapper, 
+                  nodeTypeFactory, priority, typeof(SettingsNodeType))
         {
-            _modelConverter = modelConverter;
-            _umbracoNodeService = umbracoNodeService;
-            _umbracoWrapper = umbracoWrapper;
-            _nodeTypeFactory = nodeTypeFactory;
-            Priority = priority;
         }
 
         public UmbracoNavigationProvider(
             IModelConverter modelConverter, IUmbracoNodeService umbracoNodeService,
             IUmbracoWrapper umbracoWrapper, INodeTypeFactory nodeTypeFactory,
             int priority, Type rootNodeType) 
-            : this(modelConverter, umbracoNodeService, umbracoWrapper, nodeTypeFactory, priority)
         {
+            _modelConverter = modelConverter;
+            _umbracoNodeService = umbracoNodeService;
+            _umbracoWrapper = umbracoWrapper;
+            _nodeTypeFactory = nodeTypeFactory;
+            Priority = priority;
             _rootNodeType = rootNodeType;
         }
 
