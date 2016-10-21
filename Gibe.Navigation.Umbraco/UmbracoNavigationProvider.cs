@@ -10,90 +10,98 @@ using Umbraco.Core.Models;
 
 namespace Gibe.Navigation.Umbraco
 {
-	public class UmbracoNavigationProvider<T> : INavigationProvider<T> where T : INavigationElement
-	{
-		private readonly IModelConverter _modelConverter;
-		private readonly IUmbracoNodeService _umbracoNodeService;
-		private readonly IUmbracoWrapper _umbracoWrapper;
-		private readonly INodeTypeFactory _nodeTypeFactory;
-		public int Priority { get; }
+    public class UmbracoNavigationProvider<T> : INavigationProvider<T> where T : INavigationElement
+    {
+        private readonly IModelConverter _modelConverter;
+        private readonly INodeTypeFactory _nodeTypeFactory;
+        private readonly Type _rootNodeType;
+        private readonly IUmbracoNodeService _umbracoNodeService;
+        private readonly IUmbracoWrapper _umbracoWrapper;
 
-		public UmbracoNavigationProvider(
-			IModelConverter modelConverter,
-			IUmbracoNodeService umbracoNodeService,
-			IUmbracoWrapper umbracoWrapper,
-			int priority, INodeTypeFactory nodeTypeFactory)
-		{
-			_modelConverter = modelConverter;
-			_umbracoNodeService = umbracoNodeService;
-			_umbracoWrapper = umbracoWrapper;
-			Priority = priority;
-			_nodeTypeFactory = nodeTypeFactory;
-		}
+        public UmbracoNavigationProvider(
+            IModelConverter modelConverter, IUmbracoNodeService umbracoNodeService,
+            IUmbracoWrapper umbracoWrapper, INodeTypeFactory nodeTypeFactory, 
+            int priority) 
+            : this(modelConverter, umbracoNodeService, umbracoWrapper, 
+                  nodeTypeFactory, priority, typeof(SettingsNodeType))
+        {
+        }
 
-		public IEnumerable<T> GetNavigationElements()
-		{
-			var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType<SettingsNodeType>());
-			return GetNavigationElements(topLevel);
+        public UmbracoNavigationProvider(
+            IModelConverter modelConverter, IUmbracoNodeService umbracoNodeService,
+            IUmbracoWrapper umbracoWrapper, INodeTypeFactory nodeTypeFactory,
+            int priority, Type rootNodeType) 
+        {
+            _modelConverter = modelConverter;
+            _umbracoNodeService = umbracoNodeService;
+            _umbracoWrapper = umbracoWrapper;
+            _nodeTypeFactory = nodeTypeFactory;
+            Priority = priority;
+            _rootNodeType = rootNodeType;
+        }
 
-		}
+        public int Priority { get; }
 
-		public IEnumerable<T> GetNavigationElements(IPublishedContent content)
-		{
-			var children = content.Children.Where(
-						c => (HasTemplate(c) || IsRedirect(c))
-						&& IncludeInNavigation(c));
+        public IEnumerable<T> GetNavigationElements()
+        {
+            var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType));
+            return GetNavigationElements(topLevel);
+        }
 
-			var navItems = children.Select(ToNavigationElement);
+        public SubNavigationModel<T> GetSubNavigation(string url)
+        {
+            var content = _umbracoWrapper.TypedContent(url.TrimEnd('/'));
 
-			return navItems.ToList();
-		}
-		
-		private T ToNavigationElement(IPublishedContent content)
-		{
-			var model = IsRedirect(content) ?
-				(INavigationElement)_modelConverter.ToModel<UmbracoNavigationRedirectElement>(content) :
-				(INavigationElement)_modelConverter.ToModel<UmbracoNavigationElement>(content);
-			model.Title = string.IsNullOrEmpty(model.NavTitle) ? content.Name : model.NavTitle;
-			model.Items = GetNavigationElements(content).Select(e => (INavigationElement)e).ToList();
-			model.IsVisible = ShowInNavigation(content);
-			return (T)model;
+            if (content == null) return null;
 
-		}
+            var model = new SubNavigationModel<T>();
+            var topLevelParent = _umbracoWrapper.AncestorOrSelf(content, 2);
+            model.SectionParent = _modelConverter.ToModel<UmbracoNavigationElement>(topLevelParent);
+            model.NavigationElements = GetNavigationElements(topLevelParent);
+            return model;
+        }
 
-		public SubNavigationModel<T> GetSubNavigation(string url)
-		{
-			var content = _umbracoWrapper.TypedContent(url.TrimEnd('/'));
+        public IEnumerable<T> GetNavigationElements(IPublishedContent content)
+        {
+            var children = content.Children.Where(
+                c => (HasTemplate(c) || IsRedirect(c))
+                     && IncludeInNavigation(c));
 
-			if (content == null) return null;
+            var navItems = children.Select(ToNavigationElement);
 
-			var model = new SubNavigationModel<T>();
-			var topLevelParent = _umbracoWrapper.AncestorOrSelf(content, 2);
-			model.SectionParent = _modelConverter.ToModel<UmbracoNavigationElement>(topLevelParent);
-			model.NavigationElements = GetNavigationElements(topLevelParent);
-			return model;
-		}
+            return navItems.ToList();
+        }
 
-		private bool IsRedirect(IPublishedContent content)
-		{
-			return content.DocumentTypeAlias == "redirect";
-		}
+        private T ToNavigationElement(IPublishedContent content)
+        {
+            var model = IsRedirect(content)
+                ? _modelConverter.ToModel<UmbracoNavigationRedirectElement>(content)
+                : (INavigationElement) _modelConverter.ToModel<UmbracoNavigationElement>(content);
+            model.Title = string.IsNullOrEmpty(model.NavTitle) ? content.Name : model.NavTitle;
+            model.Items = GetNavigationElements(content).Select(e => (INavigationElement) e).ToList();
+            model.IsVisible = ShowInNavigation(content);
+            return (T) model;
+        }
 
-		private bool HasTemplate(IPublishedContent content)
-		{
-			return content.TemplateId != 0;
-		}
+        private bool IsRedirect(IPublishedContent content)
+        {
+            return content.DocumentTypeAlias == "redirect";
+        }
 
-		protected virtual bool IncludeInNavigation(IPublishedContent content)
-		{
-			return true;
-		}
+        private bool HasTemplate(IPublishedContent content)
+        {
+            return content.TemplateId != 0;
+        }
 
-		protected virtual bool ShowInNavigation(IPublishedContent content)
-		{
-			return _umbracoWrapper.HasValue(content, "umbracoNaviHide") &&
-						 !_umbracoWrapper.GetPropertyValue<bool>(content, "umbracoNaviHide");
-		}
+        protected virtual bool IncludeInNavigation(IPublishedContent content)
+        {
+            return true;
+        }
 
-	}
+        protected virtual bool ShowInNavigation(IPublishedContent content)
+        {
+            return _umbracoWrapper.HasValue(content, "umbracoNaviHide") &&
+                   !_umbracoWrapper.GetPropertyValue<bool>(content, "umbracoNaviHide");
+        }
+    }
 }
