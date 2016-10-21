@@ -14,7 +14,6 @@ namespace Gibe.Navigation.Umbraco
     {
         private readonly IModelConverter _modelConverter;
         private readonly INodeTypeFactory _nodeTypeFactory;
-        private readonly int _priority;
         private readonly Type _rootNodeType;
         private readonly IUmbracoNodeService _umbracoNodeService;
         private readonly IUmbracoWrapper _umbracoWrapper;
@@ -28,7 +27,7 @@ namespace Gibe.Navigation.Umbraco
             _umbracoNodeService = umbracoNodeService;
             _umbracoWrapper = umbracoWrapper;
             _nodeTypeFactory = nodeTypeFactory;
-            _priority = priority;
+            Priority = priority;
         }
 
         public UmbracoNavigationProvider(
