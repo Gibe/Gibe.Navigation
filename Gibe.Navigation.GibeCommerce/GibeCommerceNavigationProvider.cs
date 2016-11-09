@@ -49,7 +49,7 @@ namespace Gibe.Navigation.GibeCommerce
                 Title = category.PageTitle,
                 IsVisible = ShowInNavigation(category),
                 NavTitle = category.DisplayName,
-                Items = _catalogService.GetSubCategories(category.Name).Select(ToNavigationElement),
+                Items = _catalogService.GetSubCategories(category.Name).Select(ToNavigationElement).ToList(),
                 Url = _urlProvider.GetUrl(category, UrlProviderMode.Relative)
             };
         }
