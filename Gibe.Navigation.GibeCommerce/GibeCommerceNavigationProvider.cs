@@ -36,7 +36,7 @@ namespace Gibe.Navigation.GibeCommerce
             return new SubNavigationModel<T>
             {
                 SectionParent = ToNavigationElement(parent),
-                NavigationElements = children.Select(x => (T) ToNavigationElement(x)).ToList()
+                NavigationElements = children.OrderBy(x => x.Rank).Select(x => (T) ToNavigationElement(x)).ToList()
             };
         }
 
@@ -49,7 +49,7 @@ namespace Gibe.Navigation.GibeCommerce
                 Title = category.PageTitle,
                 IsVisible = ShowInNavigation(category),
                 NavTitle = category.DisplayName,
-                Items = _catalogService.GetSubCategories(category.Name).Select(ToNavigationElement).ToList(),
+                Items = _catalogService.GetSubCategories(category.Name).OrderBy(x => x.Rank).Select(ToNavigationElement).ToList(),
                 Url = _urlProvider.GetUrl(category, UrlProviderMode.Relative)
             };
         }
