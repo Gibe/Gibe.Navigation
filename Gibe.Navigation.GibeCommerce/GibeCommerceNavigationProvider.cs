@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gibe.Navigation.GibeCommerce.Models;
 using Gibe.Navigation.Models;
@@ -42,11 +43,11 @@ namespace Gibe.Navigation.GibeCommerce
 
 		public int Priority { get; }
 
-		private INavigationElement ToNavigationElement(Category category)
+		private INavigationElement ToNavigationElement(ICategory category)
 		{
 			return new GibeCommerceNavigationElement
 			{
-				Title = category.PageTitle,
+				Title = category.GetAttribute("PageTitle", string.Empty),
 				IsVisible = ShowInNavigation(category),
 				NavTitle = category.DisplayName,
 				Items = _catalogService.GetSubCategories(category.Name).OrderBy(x => x.Rank).Select(ToNavigationElement).ToList(),
@@ -54,12 +55,12 @@ namespace Gibe.Navigation.GibeCommerce
 			};
 		}
 
-		protected virtual bool IncludeInNavigation(Category category)
+		protected virtual bool IncludeInNavigation(ICategory category)
 		{
 			return true;
 		}
 
-		protected virtual bool ShowInNavigation(Category category)
+		protected virtual bool ShowInNavigation(ICategory category)
 		{
 			return true;
 		}
