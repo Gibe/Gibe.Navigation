@@ -13,7 +13,6 @@ namespace Gibe.Navigation.Umbraco
 	public class UmbracoNodeService : IUmbracoNodeService
 	{
 		private readonly IUmbracoWrapper _umbracoWrapper;
-
 		
 		public UmbracoNodeService(IUmbracoWrapper umbracoWrapper)
 		{
@@ -23,6 +22,11 @@ namespace Gibe.Navigation.Umbraco
 		public IPublishedContent GetNode(INodeType nodeType)
 		{
 			return nodeType.FindNode(_umbracoWrapper.TypedContentAtRoot());
+		}
+
+		public IEnumerable<IPublishedContent> GetNodes(INodeType nodeType)
+		{
+			return nodeType.FindNodes(_umbracoWrapper.TypedContentAtRoot());
 		}
 	}
 }

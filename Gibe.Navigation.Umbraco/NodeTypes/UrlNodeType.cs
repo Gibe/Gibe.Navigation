@@ -23,5 +23,10 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 		{
 			return _umbracoWrapper.TypedContent(_url);
 		}
+
+		public IEnumerable<IPublishedContent> FindNodes(IEnumerable<IPublishedContent> rootNodes)
+		{
+			return new[] { FindNode(rootNodes) };
+		}
 	}
 }
