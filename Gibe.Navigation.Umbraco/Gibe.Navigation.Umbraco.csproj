@@ -277,8 +277,10 @@
     <Compile Include="IUmbracoNodeService.cs" />
     <Compile Include="Models\UmbracoNavigationElement.cs" />
     <Compile Include="Models\UmbracoNavigationRedirectElement.cs" />
+    <Compile Include="NodeTypes\AliasMultiNodeType.cs" />
     <Compile Include="NodeTypes\AliasNodeType.cs" />
     <Compile Include="NodeTypes\HomeNodeType.cs" />
+    <Compile Include="NodeTypes\IMultiNodeType.cs" />
     <Compile Include="NodeTypes\INodeType.cs" />
     <Compile Include="NodeTypes\SettingsNodeType.cs" />
     <Compile Include="NodeTypes\UrlNodeType.cs" />
