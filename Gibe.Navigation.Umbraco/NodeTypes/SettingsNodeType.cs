@@ -11,10 +11,5 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 		{
 			return rootNodes.First(r => r.DocumentTypeAlias == "site");
 		}
-
-		public IEnumerable<IPublishedContent> FindNodes(IEnumerable<IPublishedContent> rootNodes)
-		{
-			return rootNodes.Where(r => r.DocumentTypeAlias == "site");
-		}
 	}
 }
