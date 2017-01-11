@@ -74,12 +74,12 @@
       <HintPath>..\packages\Gibe.Urls.1.0.122\lib\Gibe.Urls.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="GibeCommerce, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GibeCommerce.Core.3.6.1.1416\lib\net451\GibeCommerce.dll</HintPath>
+    <Reference Include="GibeCommerce, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GibeCommerce.Core.4.0.0.1605\lib\net451\GibeCommerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="GibeCommerce.SiteServices, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GibeCommerce.SiteServices.3.6.1.1416\lib\net451\GibeCommerce.SiteServices.dll</HintPath>
+    <Reference Include="GibeCommerce.SiteServices, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GibeCommerce.SiteServices.4.0.0.1605\lib\net451\GibeCommerce.SiteServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">

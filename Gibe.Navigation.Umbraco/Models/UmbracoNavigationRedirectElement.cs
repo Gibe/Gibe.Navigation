@@ -33,6 +33,7 @@ namespace Gibe.Navigation.Umbraco.Models
 
 		public bool IsVisible { get; set; }
 		public bool IsConcrete => false;
+		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
 
 		public object Clone()
 		{
