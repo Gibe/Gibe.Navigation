@@ -295,6 +295,7 @@
     <Compile Include="Models\INavigationElement.cs" />
     <Compile Include="Models\Navigation.cs" />
     <Compile Include="Models\SubNavigationModel.cs" />
+    <Compile Include="NavigationAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
