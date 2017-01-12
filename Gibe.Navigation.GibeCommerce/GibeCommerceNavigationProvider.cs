@@ -47,13 +47,15 @@ namespace Gibe.Navigation.GibeCommerce
 		{
 			return new GibeCommerceNavigationElement
 			{
-				Title = category.GetAttribute("PageTitle", string.Empty),
+				Title = string.IsNullOrEmpty(NavTitle(category)) ? category.DisplayName : NavTitle(category),
 				IsVisible = ShowInNavigation(category),
-				NavTitle = category.DisplayName,
+				NavTitle = NavTitle(category),
 				Items = _catalogService.GetSubCategories(category.Name).OrderBy(x => x.Rank).Select(ToNavigationElement).ToList(),
 				Url = _urlProvider.GetUrl(category, UrlProviderMode.Relative)
 			};
 		}
+
+		private static string NavTitle(ICategory category) => category.GetAttribute("NavigationTitle", String.Empty);
 
 		protected virtual bool IncludeInNavigation(ICategory category)
 		{
