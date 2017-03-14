@@ -71,8 +71,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Gibe.Caching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gibe.Caching.1.0.164\lib\Gibe.Caching.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Gibe.Caching.1.0.261\lib\Gibe.Caching.dll</HintPath>
     </Reference>
     <Reference Include="Gibe.DittoProcessors, Version=14.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Gibe.DittoProcessors.1.1.4\lib\Gibe.DittoProcessors.dll</HintPath>

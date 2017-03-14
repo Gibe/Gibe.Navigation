@@ -272,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultNodeTypeFactory.cs" />
+    <Compile Include="INavigationFilter.cs" />
     <Compile Include="INodeTypeFactory.cs" />
     <Compile Include="IUmbracoNodeService.cs" />
     <Compile Include="Models\UmbracoNavigationElement.cs" />
