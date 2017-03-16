@@ -21,12 +21,12 @@ namespace Gibe.Navigation.Umbraco
 	public class FakeUmbracoNodeService : IUmbracoNodeService
 	{
 		private readonly IDictionary<INodeType, IPublishedContent> _contentByNodeType;
-		
+
 		public FakeUmbracoNodeService(IDictionary<INodeType, IPublishedContent> contentByNodeType)
 		{
 			_contentByNodeType = contentByNodeType;
 		}
-		
+
 		public IPublishedContent GetNode(INodeType nodeKey) => _contentByNodeType[nodeKey];
 	}
 

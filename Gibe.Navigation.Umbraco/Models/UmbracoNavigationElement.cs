@@ -27,7 +27,7 @@ namespace Gibe.Navigation.Umbraco.Models
 				NavTitle = NavTitle,
 				Url = Url,
 				IsActive = IsActive,
-				Items = Items.Select(i => (INavigationElement) i.Clone()).ToList(),
+				Items = Items.Select(i => (INavigationElement)i.Clone()).ToList(),
 				IsVisible = IsVisible
 			};
 		}

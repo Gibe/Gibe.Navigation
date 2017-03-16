@@ -23,7 +23,7 @@ namespace Gibe.Navigation.Umbraco.Models
 		public LinkPickerModel Redirect { get; set; }
 
 		[DittoIgnore]
-		public string Url => Redirect.Url; 
+		public string Url => Redirect.Url;
 
 		public bool IsActive { get; set; }
 		public IEnumerable<INavigationElement> Items { get; set; }

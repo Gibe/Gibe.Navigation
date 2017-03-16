@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Umbraco.Core.Models;
 
 namespace Gibe.Navigation.Umbraco.NodeTypes
 {
 	public interface INodeType
 	{
-		IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes);
+		IPublishedContent FindNode([NotNull]IEnumerable<IPublishedContent> rootNodes);
 	}
 
 	public class FakeRootNodeType : INodeType

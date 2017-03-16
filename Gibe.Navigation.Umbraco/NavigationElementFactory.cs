@@ -24,7 +24,7 @@ namespace Gibe.Navigation.Umbraco
 
 		public INavigationElement Make(IPublishedContent content)
 		{
-			var model =  IsRedirect(content)
+			var model = IsRedirect(content)
 					? _modelConverter.ToModel<UmbracoNavigationRedirectElement>(content)
 					: (INavigationElement)_modelConverter.ToModel<UmbracoNavigationElement>(content);
 
@@ -37,7 +37,7 @@ namespace Gibe.Navigation.Umbraco
 			return content.DocumentTypeAlias.Equals("redirect", StringComparison.CurrentCultureIgnoreCase);
 		}
 
-		protected virtual bool ShowInNavigation(IPublishedContent content)
+		private bool ShowInNavigation(IPublishedContent content)
 		{
 			return _umbracoWrapper.HasValue(content, "umbracoNaviHide") &&
 						 !_umbracoWrapper.GetPropertyValue<bool>(content, "umbracoNaviHide");
