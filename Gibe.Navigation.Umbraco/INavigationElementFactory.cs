@@ -12,4 +12,19 @@ namespace Gibe.Navigation.Umbraco
 	{
 		INavigationElement Make(IPublishedContent content);
 	}
+
+	public class FakeNavigationElementFactory : INavigationElementFactory
+	{
+		private readonly INavigationElement _navigationElement;
+
+		public FakeNavigationElementFactory(INavigationElement navigationElement)
+		{
+			_navigationElement = navigationElement;
+		}
+
+		public INavigationElement Make(IPublishedContent content)
+		{
+			return _navigationElement;
+		}
+	}
 }
