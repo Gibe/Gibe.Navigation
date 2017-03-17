@@ -11,4 +11,18 @@ namespace Gibe.Navigation.Umbraco
 	{
 		bool IncludeInNavigation(IPublishedContent content);
 	}
+
+	public class FakeNavigationFilter : INavigationFilter
+	{
+		private readonly bool _includeInNavigation;
+
+		public FakeNavigationFilter(bool includeInNavigation)
+		{
+			_includeInNavigation = includeInNavigation;
+		}
+		public bool IncludeInNavigation(IPublishedContent content)
+		{
+			return _includeInNavigation;
+		}
+	}
 }
