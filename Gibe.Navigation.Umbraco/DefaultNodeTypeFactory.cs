@@ -25,7 +25,7 @@ namespace Gibe.Navigation.Umbraco
 			return _nodeTypes[t];
 		}
 	}
-
+	
 	[TestFixture]
 	internal class DefaultNodeTypeFactoryTests
 	{
@@ -42,6 +42,13 @@ namespace Gibe.Navigation.Umbraco
 		}
 
 		[Test]
+		public void GetNodeType_Throws_KeyNotFoundException_When_Not_Found()
+		{
+			var nodeTypeFactory = new DefaultNodeTypeFactory(new INodeType[] { });
+			Assert.Throws<KeyNotFoundException>(() => nodeTypeFactory.GetNodeType(typeof(SettingsNodeType)));
+		}
+
+		[Test]
 		public void GetNodeTypeGeneric_Returns_Matching_NodeType()
 		{
 			var fakeRootNodeType = new FakeRootNodeType("root");
@@ -51,6 +58,13 @@ namespace Gibe.Navigation.Umbraco
 
 			var nodeType = nodeTypeFactory.GetNodeType<SettingsNodeType>();
 			Assert.That(nodeType.GetType(), Is.EqualTo(typeof(SettingsNodeType)));
+		}
+
+		[Test]
+		public void GetNodeTypeGeneric_Throws_KeyNotFoundException_When_Not_Found()
+		{
+			var nodeTypeFactory = new DefaultNodeTypeFactory(new INodeType[] { });
+			Assert.Throws<KeyNotFoundException>(() => nodeTypeFactory.GetNodeType<SettingsNodeType>());
 		}
 	}
 }

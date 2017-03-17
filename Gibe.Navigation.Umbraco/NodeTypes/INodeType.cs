@@ -10,6 +10,21 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 		IPublishedContent FindNode([NotNull]IEnumerable<IPublishedContent> rootNodes);
 	}
 
+	public class FakeNodeType : INodeType
+	{
+		private readonly IPublishedContent _contentToReturn;
+
+		public FakeNodeType(IPublishedContent contentToReturn)
+		{
+			_contentToReturn = contentToReturn;
+		}
+
+		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
+		{
+			return _contentToReturn;
+		}
+	}
+
 	public class FakeRootNodeType : INodeType
 	{
 		private readonly string _rootDocumentTypeAlias;
