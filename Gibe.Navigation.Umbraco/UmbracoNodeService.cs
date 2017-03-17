@@ -35,14 +35,9 @@ namespace Gibe.Navigation.Umbraco
 			var umbracoWrapper = new Mock<IUmbracoWrapper>();
 			umbracoWrapper.Setup(u => u.TypedContentAtRoot())
 				.Returns(new List<IPublishedContent>());
-
-			var nodeType = new Mock<INodeType>();
-			nodeType.Setup(n => n.FindNode(It.IsAny<IEnumerable<IPublishedContent>>()))
-				.Returns(mockContent)
-				.Verifiable();
-
+			
 			var nodeService = new UmbracoNodeService(umbracoWrapper.Object);
-			var result = nodeService.GetNode(nodeType.Object);
+			var result = nodeService.GetNode(new FakeNodeType(mockContent));
 
 			Assert.That(result, Is.EqualTo(mockContent));
 		}
