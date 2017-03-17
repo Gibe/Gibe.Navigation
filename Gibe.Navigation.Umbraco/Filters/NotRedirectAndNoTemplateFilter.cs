@@ -5,7 +5,7 @@ using Umbraco.Core.Models;
 
 namespace Gibe.Navigation.Umbraco.Filters
 {
-	public class NotRedirectAndNoTemplateFilter : INavigationFilter
+	public class TemplateOrRedirectFilter : INavigationFilter
 	{
 		public bool IncludeInNavigation(IPublishedContent content)
 		{
@@ -24,12 +24,12 @@ namespace Gibe.Navigation.Umbraco.Filters
 	}
 
 	[TestFixture]
-	internal class NotRedirectAndNoTemplateFilterTests
+	internal class TemplateOrRedirectFilterFilterTests
 	{
 		[Test]
 		public void IncludeInNavigation_Returns_False_When_Content_Has_No_Template()
 		{
-			var filter = new NotRedirectAndNoTemplateFilter();
+			var filter = new TemplateOrRedirectFilter();
 			var result = filter.IncludeInNavigation(GetMockContent(0));
 
 			Assert.That(result,Is.False);
@@ -38,7 +38,7 @@ namespace Gibe.Navigation.Umbraco.Filters
 		[Test]
 		public void IncludeInNavigation_Returns_True_When_Content_Has_Template()
 		{
-			var filter = new NotRedirectAndNoTemplateFilter();
+			var filter = new TemplateOrRedirectFilter();
 			var result = filter.IncludeInNavigation(GetMockContent(1));
 
 			Assert.That(result, Is.True);
@@ -47,7 +47,7 @@ namespace Gibe.Navigation.Umbraco.Filters
 		[Test]
 		public void IncludeInNavigation_Returns_True_When_Content_Has_No_Template_And_Is_Redirect()
 		{
-			var filter = new NotRedirectAndNoTemplateFilter();
+			var filter = new TemplateOrRedirectFilter();
 			var result = filter.IncludeInNavigation(GetMockContent(0, "redirect"));
 
 			Assert.That(result, Is.True);
@@ -56,7 +56,7 @@ namespace Gibe.Navigation.Umbraco.Filters
 		[Test]
 		public void IncludeInNavigation_Returns_True_When_Content_Has_Template_And_Is_Redirect()
 		{
-			var filter = new NotRedirectAndNoTemplateFilter();
+			var filter = new TemplateOrRedirectFilter();
 			var result = filter.IncludeInNavigation(GetMockContent(1, "redirect"));
 
 			Assert.That(result, Is.True);

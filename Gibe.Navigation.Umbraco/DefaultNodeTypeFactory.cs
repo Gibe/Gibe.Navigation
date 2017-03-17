@@ -38,7 +38,7 @@ namespace Gibe.Navigation.Umbraco
 			var nodeTypeFactory = new DefaultNodeTypeFactory(new INodeType[]{ fakeRootNodeType, settingsNodeType });
 
 			var nodeType = nodeTypeFactory.GetNodeType(settingsNodeType.GetType());
-			Assert.That(nodeType.GetType(), Is.EqualTo(typeof(SettingsNodeType)));
+			Assert.That(nodeType is SettingsNodeType);
 		}
 
 		[Test]

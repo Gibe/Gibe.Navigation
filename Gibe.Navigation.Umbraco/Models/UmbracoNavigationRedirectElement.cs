@@ -57,23 +57,10 @@ namespace Gibe.Navigation.Umbraco.Models
 				string.Equals(NavTitle, other.NavTitle) &&
 				string.Equals(Redirect, other.Redirect) &&
 				IsActive == other.IsActive &&
-				ItemsEqual(other.Items.ToList()) &&
+				Items.SequenceEqual(other.Items) &&
 				IsVisible == other.IsVisible;
 		}
-
-		protected bool ItemsEqual(List<INavigationElement> otherItems)
-		{
-			if (Items.Count() != otherItems.Count) return false;
-			for (var i = 0; i < Items.Count(); i++)
-			{
-				if (!Items.ElementAt(i).Equals(otherItems.ElementAt(i)))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
+		
 		public override int GetHashCode()
 		{
 			unchecked

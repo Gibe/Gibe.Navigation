@@ -17,7 +17,7 @@ namespace Gibe.Navigation.Umbraco
 			Bind<INavigationElementFactory>().To<NavigationElementFactory>();
 			Bind<INavigationProvider<INavigationElement>>().To<UmbracoNavigationProvider<INavigationElement>>();
 			Bind<IUmbracoNodeService>().To<UmbracoNodeService>();
-			Bind<INavigationFilter>().To<NotRedirectAndNoTemplateFilter>();
+			Bind<INavigationFilter>().To<TemplateOrRedirectFilter>();
 		}
 	}
 }
