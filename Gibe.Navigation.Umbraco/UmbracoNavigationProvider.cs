@@ -22,10 +22,16 @@ namespace Gibe.Navigation.Umbraco
 				IUmbracoWrapper umbracoWrapper,
 				INodeTypeFactory nodeTypeFactory,
 				int priority,
-				IEnumerable<INavigationFilter> filters, 
+				IEnumerable<INavigationFilter> filters,
 				INavigationElementFactory navigationElementFactory)
-				: this(umbracoNodeService, umbracoWrapper,
-							nodeTypeFactory, priority, typeof(SettingsNodeType), filters, navigationElementFactory)
+				: this(
+						umbracoNodeService, 
+						umbracoWrapper,
+						nodeTypeFactory, 
+						priority, 
+						typeof(SettingsNodeType), 
+						filters, 
+						navigationElementFactory)
 		{
 		}
 
@@ -35,7 +41,7 @@ namespace Gibe.Navigation.Umbraco
 				INodeTypeFactory nodeTypeFactory,
 				int priority,
 				Type rootNodeType,
-				IEnumerable<INavigationFilter> filters, 
+				IEnumerable<INavigationFilter> filters,
 				INavigationElementFactory navigationElementFactory)
 		{
 			_umbracoNodeService = umbracoNodeService;
@@ -82,7 +88,7 @@ namespace Gibe.Navigation.Umbraco
 			model.Items = GetNavigationElements(content).Select(e => (INavigationElement)e).ToList();
 			return (T)model;
 		}
-		
+
 		private bool IncludeInNavigation(IPublishedContent content)
 		{
 			return _filters.All(filter => filter.IncludeInNavigation(content));
