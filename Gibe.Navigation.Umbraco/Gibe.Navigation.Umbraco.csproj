@@ -288,7 +288,7 @@
   <ItemGroup>
     <Compile Include="DefaultBindings.cs" />
     <Compile Include="DefaultNodeTypeFactory.cs" />
-    <Compile Include="Filters\NotRedirectAndNoTemplateFilter.cs" />
+    <Compile Include="Filters\TemplateOrRedirectFilter.cs" />
     <Compile Include="INavigationElementFactory.cs" />
     <Compile Include="INavigationFilter.cs" />
     <Compile Include="INodeTypeFactory.cs" />
