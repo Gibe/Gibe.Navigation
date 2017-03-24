@@ -11,12 +11,13 @@ namespace Gibe.Navigation
 		private readonly ICache _cache;
 		private readonly IEnumerable<INavigationProvider<T>> _providers;
 		
-		private const string CacheKey = "navigation";
+		private readonly string _cacheKey;
 
-		public DefaultNavigationService(ICache cache, IEnumerable<INavigationProvider<T>> providers)
+		public DefaultNavigationService(ICache cache, IEnumerable<INavigationProvider<T>> providers, string cacheKey = "navigation")
 		{
 			_cache = cache;
 			_providers = providers;
+			_cacheKey = cacheKey;
 		}
 
 		public Navigation<T> GetNavigation()
@@ -28,14 +29,14 @@ namespace Gibe.Navigation
 		{
 			List<T> navElements;
 
-			if (_cache.Exists(CacheKey))
+			if (_cache.Exists(_cacheKey))
 			{
-				navElements = Clone(_cache.Get<List<T>>(CacheKey)).ToList();
+				navElements = Clone(_cache.Get<List<T>>(_cacheKey)).ToList();
 			}
 			else
 			{
 				navElements = _providers.OrderBy(p => p.Priority).SelectMany(p => p.GetNavigationElements()).ToList();
-				_cache.Add(CacheKey, navElements, new TimeSpan(0, 10, 0));
+				_cache.Add(_cacheKey, navElements, new TimeSpan(0, 10, 0));
 			}
 
 			SelectActiveTree(navElements, currentUrl);

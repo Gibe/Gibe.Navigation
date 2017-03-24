@@ -9,8 +9,8 @@
       Base classes for navigation
     </description>
 		<dependencies>
-			<dependency id="GibeCommerce.Core" version="3.5" />
-      <dependency id="GibeCommerce.SiteServices" version="3.5" />
+			<dependency id="GibeCommerce.Core" version="4.0" />
+      <dependency id="GibeCommerce.SiteServices" version="4.0" />
 		</dependencies>
 	</metadata>
   <files>
