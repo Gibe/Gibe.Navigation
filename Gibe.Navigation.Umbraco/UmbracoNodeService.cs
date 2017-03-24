@@ -20,9 +20,9 @@ namespace Gibe.Navigation.Umbraco
 			_umbracoWrapper = umbracoWrapper;
 		}
 
-		public IPublishedContent GetNode(INodeType nodeType)
+		public IPublishedContent GetNode(INodeType nodeType, IPublishedContent currentNode)
 		{
-			return nodeType.FindNode(_umbracoWrapper.TypedContentAtRoot());
+			return nodeType.FindNode(_umbracoWrapper.TypedContentAtRoot(), currentNode);
 		}
 	}
 }

@@ -17,9 +17,9 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 			_umbracoWrapper = umbracoWrapper;
 		}
 
-		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
+		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes, IPublishedContent currentNode)
 		{
-			var settings = new SettingsNodeType().FindNode(rootNodes);
+			var settings = new SettingsNodeType().FindNode(rootNodes, currentNode);
 			var homeId = _umbracoWrapper.GetPropertyValue<int>(settings, "umbracoInternalRedirectId");
 			return _umbracoWrapper.TypedContent(homeId);
 		}

@@ -7,7 +7,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 {
 	public class SettingsNodeType : INodeType
 	{
-		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
+		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes, IPublishedContent currentNode)
 		{
 			return rootNodes.First(r => r.DocumentTypeAlias == "site");
 		}

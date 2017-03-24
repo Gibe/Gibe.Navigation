@@ -9,7 +9,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 {
 	public interface INodeType
 	{
-		IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes);
+		IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes, IPublishedContent currentNode);
 	}
 
 	

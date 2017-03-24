@@ -278,6 +278,7 @@
     <Compile Include="Models\UmbracoNavigationElement.cs" />
     <Compile Include="Models\UmbracoNavigationRedirectElement.cs" />
     <Compile Include="NodeTypes\AliasNodeType.cs" />
+    <Compile Include="NodeTypes\ContextualSettingsNodeType.cs" />
     <Compile Include="NodeTypes\HomeNodeType.cs" />
     <Compile Include="NodeTypes\INodeType.cs" />
     <Compile Include="NodeTypes\SettingsNodeType.cs" />

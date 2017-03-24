@@ -19,7 +19,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 			_url = url;
 		}
 
-		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
+		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes, IPublishedContent currentNode)
 		{
 			return _umbracoWrapper.TypedContent(_url);
 		}

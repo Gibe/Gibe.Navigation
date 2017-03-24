@@ -44,7 +44,7 @@ namespace Gibe.Navigation.Umbraco
 
         public IEnumerable<T> GetNavigationElements()
         {
-            var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType));
+            var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType), null);
             return GetNavigationElements(topLevel);
         }
 

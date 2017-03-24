@@ -15,7 +15,7 @@ namespace Gibe.Navigation.Umbraco
 		/// </summary>
 		/// <param name="nodeType">The type of node to find</param>
 		/// <returns>The node represented by that key</returns>
-		IPublishedContent GetNode(INodeType nodeType);
+		IPublishedContent GetNode(INodeType nodeType, IPublishedContent currentNode);
 	}
 
 	public class FakeUmbracoNodeService : IUmbracoNodeService
@@ -27,7 +27,7 @@ namespace Gibe.Navigation.Umbraco
 			_contentByNodeType = contentByNodeType;
 		}
 		
-		public IPublishedContent GetNode(INodeType nodeKey) => _contentByNodeType[nodeKey];
+		public IPublishedContent GetNode(INodeType nodeKey, IPublishedContent currentNode) => _contentByNodeType[nodeKey];
 	}
 
 
