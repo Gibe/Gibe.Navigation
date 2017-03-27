@@ -9,6 +9,7 @@
       Base classes for navigation
     </description>
 		<dependencies>
+			<dependency id="Gibe.Navigation" version="$version$" />
 			<dependency id="GibeCommerce.Core" version="4.0" />
       <dependency id="GibeCommerce.SiteServices" version="4.0" />
 		</dependencies>

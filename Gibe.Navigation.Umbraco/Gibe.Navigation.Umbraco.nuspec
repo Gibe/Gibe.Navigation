@@ -9,7 +9,7 @@
       Navigation provider for Umbraco
     </description>
 		<dependencies>
-			<dependency id="Gibe.Navigation" version="2.0.0" />
+			<dependency id="Gibe.Navigation" version="$version$" />
 			<dependency id="Gibe.DittoProcessors" version="1.1.4" />
 			<dependency id="Gibe.DittoServices" version="1.2.1" />
 			<dependency id="Our.Umbraco.Ditto" version="0.10.0" />
