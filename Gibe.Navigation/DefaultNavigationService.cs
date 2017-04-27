@@ -89,7 +89,7 @@ namespace Gibe.Navigation
 			return elements.Any(n => n.IsActive);
 		}
 
-		protected bool IsActive(string currentUrl, T navigationElement) =>
+		protected virtual bool IsActive(string currentUrl, T navigationElement) =>
 			navigationElement.Url.TrimEnd('/') == currentUrl.TrimEnd('/');
 
 		private IEnumerable<T> Clone(IEnumerable<T> elements)
