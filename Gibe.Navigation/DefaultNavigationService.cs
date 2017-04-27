@@ -72,7 +72,7 @@ namespace Gibe.Navigation
 			{
 				foreach (var navigationElement in elements)
 				{
-					if (navigationElement.IsConcrete && (navigationElement.Url.TrimEnd('/') == currentUrl.TrimEnd('/')))
+					if (navigationElement.IsConcrete && (IsActive(currentUrl, navigationElement)))
 					{
 						navigationElement.IsActive = true;
 						return true;
@@ -88,6 +88,9 @@ namespace Gibe.Navigation
 
 			return elements.Any(n => n.IsActive);
 		}
+
+		protected bool IsActive(string currentUrl, T navigationElement) =>
+			navigationElement.Url.TrimEnd('/') == currentUrl.TrimEnd('/');
 
 		private IEnumerable<T> Clone(IEnumerable<T> elements)
 			=> elements.Select(e => (T)e.Clone()).ToList();
