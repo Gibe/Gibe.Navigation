@@ -31,19 +31,17 @@ namespace Gibe.Navigation
 
 			if (_cache.Exists(_cacheKey))
 			{
-				navElements = Clone(_cache.Get<List<T>>(_cacheKey)).ToList();
+				navElements = _cache.Get<List<T>>(_cacheKey);
 			}
 			else
 			{
 				navElements = _providers.OrderBy(p => p.Priority).SelectMany(p => p.GetNavigationElements()).ToList();
 				_cache.Add(_cacheKey, navElements, new TimeSpan(0, 10, 0));
 			}
-
-			SelectActiveTree(navElements, currentUrl);
-
+			
 			return new Models.Navigation<T>
 			{
-				Items = Visible(navElements)
+				Items = Visible(Active(navElements, currentUrl))
 			};
 		}
 
@@ -57,36 +55,40 @@ namespace Gibe.Navigation
 
 			if (matchingSideNavigation == null) return null;
 
-			SelectActiveTree(matchingSideNavigation.NavigationElements.ToList(), url);
-
 			return new SubNavigationModel<T>
 			{
 				SectionParent = matchingSideNavigation.SectionParent,
-				NavigationElements = Visible(matchingSideNavigation.NavigationElements.ToList())
+				NavigationElements = Visible(Active(matchingSideNavigation.NavigationElements.ToList(), url))
 			};
 		}
 
-		private bool SelectActiveTree(List<T> elements, string currentUrl)
+		private List<T> Active(List<T> elements, string currentUrl)
 		{
+			var clone = Clone(elements).ToList();
 			if (currentUrl != null)
 			{
-				foreach (var navigationElement in elements)
-				{
-					if (navigationElement.IsConcrete && (IsActive(currentUrl, navigationElement)))
-					{
-						navigationElement.IsActive = true;
-						return true;
-					}
+				SelectActiveChildren(clone, currentUrl);
+			}
+			return clone.ToList();
+		}
 
-					navigationElement.IsActive = SelectActiveTree(navigationElement.Items.Select(i => (T)i).ToList(), currentUrl);
-					if (navigationElement.IsActive)
-					{
-						return true;
-					}
+		private bool SelectActiveChildren(IEnumerable<T> elements, string currentUrl)
+		{
+			foreach (var navigationElement in elements)
+			{
+				if (navigationElement.IsConcrete && IsActive(currentUrl, navigationElement))
+				{
+					navigationElement.IsActive = true;
+					return true;
+				}
+
+				navigationElement.IsActive = SelectActiveChildren(navigationElement.Items.Select(i => (T)i).ToList(), currentUrl);
+				if (navigationElement.IsActive)
+				{
+					return true;
 				}
 			}
-
-			return elements.Any(n => n.IsActive);
+			return false;
 		}
 
 		protected virtual bool IsActive(string currentUrl, T navigationElement) =>
