@@ -46,19 +46,15 @@ namespace Gibe.Navigation
 		}
 
 
-		public SubNavigationModel<T> GetSubNavigation(string url)
+		public SubNavigationModel<T> GetSubNavigation(string currentUrl)
 		{
-			var matchingSideNavigation = _providers
-				.OrderBy(x => x.Priority)
-				.Select(x => x.GetSubNavigation(url))
-				.SingleOrDefault(x => x != null);
-
-			if (matchingSideNavigation == null) return null;
-
+			var navigation = GetNavigation(currentUrl);
+			var section = navigation.Items.FirstOrDefault(i => i.IsActive);
+			
 			return new SubNavigationModel<T>
 			{
-				SectionParent = matchingSideNavigation.SectionParent,
-				NavigationElements = Visible(Active(matchingSideNavigation.NavigationElements.ToList(), url))
+				SectionParent = section,
+				NavigationElements = (IEnumerable<T>)section.Items
 			};
 		}
 

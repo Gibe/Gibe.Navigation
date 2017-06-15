@@ -16,12 +16,7 @@ namespace Gibe.Navigation
 		/// </summary>
 		/// <returns>An ordered enumberable of navigation elements</returns>
 		IEnumerable<T> GetNavigationElements();
-
-		/// <summary>
-		/// Returns a model containing the parent and a child navigation tree
-		/// </summary>
-		SubNavigationModel<T> GetSubNavigation(string url);
-
+		
 		int Priority { get; }
 	}
 }

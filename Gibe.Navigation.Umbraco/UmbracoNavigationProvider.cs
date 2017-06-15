@@ -60,20 +60,7 @@ namespace Gibe.Navigation.Umbraco
 			var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType));
 			return GetNavigationElements(topLevel);
 		}
-
-		public SubNavigationModel<T> GetSubNavigation(string url)
-		{
-			var content = _umbracoWrapper.TypedContent(url.TrimEnd('/'));
-
-			if (content == null) return null;
-
-			var model = new SubNavigationModel<T>();
-			var topLevelParent = _umbracoWrapper.AncestorOrSelf(content, 2);
-			model.SectionParent = _navigationElementFactory.Make(topLevelParent);
-			model.NavigationElements = GetNavigationElements(topLevelParent);
-			return model;
-		}
-
+		
 		public IEnumerable<T> GetNavigationElements(IPublishedContent content)
 		{
 			var children = content.Children.Where(IncludeInNavigation);

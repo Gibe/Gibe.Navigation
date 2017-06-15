@@ -17,7 +17,7 @@ namespace Gibe.Navigation
 		/// <summary>
 		/// Returns a model containing the parent and a child navigation tree with the current URL and any logical parents set as active
 		/// </summary>
-		SubNavigationModel<T> GetSubNavigation(string url);
+		SubNavigationModel<T> GetSubNavigation(string currentUrl);
 	}
 }
 

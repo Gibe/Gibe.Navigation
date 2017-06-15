@@ -27,20 +27,7 @@ namespace Gibe.Navigation.GibeCommerce
 
 			return categories.OrderBy(x => x.Rank).Select(x => (T) ToNavigationElement(x)).ToList();
 		}
-
-		public SubNavigationModel<T> GetSubNavigation(string url)
-		{
-			var categories = _catalogService.GetAllCategories();
-			var parent = categories.First(x => IncludeInNavigation(x) && _urlProvider.GetUrl(x, UrlProviderMode.Relative) == url);
-			var children = _catalogService.GetSubCategories(parent.Name).Where(IncludeInNavigation);
-
-			return new SubNavigationModel<T>
-			{
-				SectionParent = ToNavigationElement(parent),
-				NavigationElements = children.OrderBy(x => x.Rank).Select(x => (T) ToNavigationElement(x)).ToList()
-			};
-		}
-
+		
 		public int Priority { get; }
 
 		private INavigationElement ToNavigationElement(ICategory category)
