@@ -14,19 +14,16 @@ namespace Gibe.Navigation.Umbraco
 		private readonly INodeTypeFactory _nodeTypeFactory;
 		private readonly Type _rootNodeType;
 		private readonly IUmbracoNodeService _umbracoNodeService;
-		private readonly IUmbracoWrapper _umbracoWrapper;
 		private readonly IEnumerable<INavigationFilter> _filters;
 
 		public UmbracoNavigationProvider(
 				IUmbracoNodeService umbracoNodeService,
-				IUmbracoWrapper umbracoWrapper,
 				INodeTypeFactory nodeTypeFactory,
 				int priority,
 				IEnumerable<INavigationFilter> filters,
 				INavigationElementFactory navigationElementFactory)
 				: this(
 						umbracoNodeService, 
-						umbracoWrapper,
 						nodeTypeFactory, 
 						priority, 
 						typeof(SettingsNodeType), 
@@ -37,7 +34,6 @@ namespace Gibe.Navigation.Umbraco
 
 		public UmbracoNavigationProvider(
 				IUmbracoNodeService umbracoNodeService,
-				IUmbracoWrapper umbracoWrapper,
 				INodeTypeFactory nodeTypeFactory,
 				int priority,
 				Type rootNodeType,
@@ -45,7 +41,6 @@ namespace Gibe.Navigation.Umbraco
 				INavigationElementFactory navigationElementFactory)
 		{
 			_umbracoNodeService = umbracoNodeService;
-			_umbracoWrapper = umbracoWrapper;
 			_nodeTypeFactory = nodeTypeFactory;
 			Priority = priority;
 			_rootNodeType = rootNodeType;

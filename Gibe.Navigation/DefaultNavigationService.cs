@@ -39,9 +39,9 @@ namespace Gibe.Navigation
 				_cache.Add(_cacheKey, navElements, new TimeSpan(0, 10, 0));
 			}
 			
-			return new Models.Navigation<T>
+			return new Navigation<T>
 			{
-				Items = Visible(Active(navElements, currentUrl))
+				Items = Active(navElements, currentUrl)
 			};
 		}
 
