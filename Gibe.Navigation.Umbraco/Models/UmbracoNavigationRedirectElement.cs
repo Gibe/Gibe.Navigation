@@ -20,13 +20,13 @@ namespace Gibe.Navigation.Umbraco.Models
 		public LinkPickerModel Redirect { get; set; }
 
 		[DittoIgnore]
-		public string Url => Redirect.Url;
+		public string Url => Redirect?.Url;
 
 		public bool IsActive { get; set; }
 		public IEnumerable<INavigationElement> Items { get; set; }
 
 		[DittoIgnore]
-		public string Target => Redirect.Target;
+		public string Target => Redirect?.Target;
 
 		public bool IsVisible { get; set; }
 		public bool IsConcrete => false;
@@ -67,7 +67,7 @@ namespace Gibe.Navigation.Umbraco.Models
 			{
 				var hashCode = Title?.GetHashCode() ?? 0;
 				hashCode = (hashCode * 397) ^ (NavTitle?.GetHashCode() ?? 0);
-				hashCode = (hashCode * 397) ^ (Url?.GetHashCode() ?? 0);
+				hashCode = (hashCode * 397) ^ (Redirect?.GetHashCode() ?? 0);
 				hashCode = (hashCode * 397) ^ IsActive.GetHashCode();
 				hashCode = (hashCode * 397) ^ (Items?.GetHashCode() ?? 0);
 				hashCode = (hashCode * 397) ^ IsVisible.GetHashCode();
@@ -124,5 +124,6 @@ namespace Gibe.Navigation.Umbraco.Models
 
 			Assert.That(element.HasVisibleChildren, Is.False);
 		}
+
 	}
 }
