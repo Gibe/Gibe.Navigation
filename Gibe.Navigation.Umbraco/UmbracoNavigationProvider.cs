@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.NodeTypes;
-using Gibe.UmbracoWrappers;
-using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco
 {

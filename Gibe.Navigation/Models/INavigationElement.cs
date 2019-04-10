@@ -5,13 +5,13 @@ namespace Gibe.Navigation.Models
 {
 	public interface INavigationElement : ICloneable
 	{
-		string Title { get; set; }
+		string Title { get; }
 		string NavTitle { get; }
 		string Url { get; }
-		bool IsActive { get; set; }
-		IEnumerable<INavigationElement> Items { get; set; }
+		bool IsActive { get; }
+		IEnumerable<INavigationElement> Items { get; }
 		string Target { get; }
-		bool IsVisible { get; set; }
+		bool IsVisible { get; }
 		bool IsConcrete { get; }
 		bool HasVisibleChildren { get; }
 	}

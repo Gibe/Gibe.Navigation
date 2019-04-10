@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gibe.UmbracoWrappers;
+﻿using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
-using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Web;
+using Umbraco.Web.PublishedCache;
 
 namespace Gibe.Navigation.Umbraco.NodeTypes
 {
 	public class HomeNodeType : INodeType
 	{
-		private readonly IUmbracoWrapper _umbracoWrapper;
+		private readonly IPublishedContentCache _umbracoWrapper;
 		private readonly INodeTypeFactory _nodeTypeFactory;
 		
-		public HomeNodeType(IUmbracoWrapper umbracoWrapper, INodeTypeFactory nodeTypeFactory)
+		public HomeNodeType(IPublishedContentCache umbracoWrapper, INodeTypeFactory nodeTypeFactory)
 		{
 			_umbracoWrapper = umbracoWrapper;
 			_nodeTypeFactory = nodeTypeFactory;
@@ -24,8 +21,8 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
 		{
 			var settings = _nodeTypeFactory.GetNodeType<SettingsNodeType>().FindNode(rootNodes);
-			var homeId = _umbracoWrapper.GetPropertyValue<int>(settings, "umbracoInternalRedirectId");
-			return _umbracoWrapper.TypedContent(homeId);
+			var homeId = settings.Value<int>("umbracoInternalRedirectId");
+			return _umbracoWrapper.GetById(homeId);
 		}
 	}
 
@@ -40,7 +37,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 			var settingsMock = new Mock<IPublishedContent>().Object;
 			var homeMock = new Mock<IPublishedContent>().Object;
 
-			var wrapperMock = new Mock<IUmbracoWrapper>();
+			var wrapperMock = new Mock<IPublishedContentCache>();
 			wrapperMock.Setup(w => w.GetPropertyValue<int>(It.IsAny<IPublishedContent>(), "umbracoInternalRedirectId"))
 				.Returns(homeId);
 			wrapperMock.Setup(w => w.TypedContent(homeId))

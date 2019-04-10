@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gibe.UmbracoWrappers;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco.NodeTypes
 {

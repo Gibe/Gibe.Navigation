@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 using Gibe.Navigation.Umbraco.NodeTypes;
-using Gibe.UmbracoWrappers;
 using JetBrains.Annotations;
 using Moq;
 using NUnit.Framework;
-using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Web.PublishedCache;
 
 namespace Gibe.Navigation.Umbraco
 {
 	public class UmbracoNodeService : IUmbracoNodeService
 	{
-		private readonly IUmbracoWrapper _umbracoWrapper;
+		private readonly IPublishedContentCache _publishedContentCache;
 		
-		public UmbracoNodeService(IUmbracoWrapper umbracoWrapper)
+		public UmbracoNodeService(IPublishedContentCache publishedContentCache)
 		{
-			_umbracoWrapper = umbracoWrapper;
+			_publishedContentCache = publishedContentCache;
 		}
 
 		[NotNull]
 		public IPublishedContent GetNode([NotNull]INodeType nodeType)
 		{
-			return nodeType.FindNode(_umbracoWrapper.TypedContentAtRoot());
+			return nodeType.FindNode(_publishedContentCache.GetAtRoot());
 		}
 	}
 
@@ -32,8 +32,8 @@ namespace Gibe.Navigation.Umbraco
 		{
 			var mockContent = new Mock<IPublishedContent>().Object;
 
-			var umbracoWrapper = new Mock<IUmbracoWrapper>();
-			umbracoWrapper.Setup(u => u.TypedContentAtRoot())
+			var umbracoWrapper = new Mock<IPublishedContentCache>();
+			umbracoWrapper.Setup(u => u.GetAtRoot())
 				.Returns(new List<IPublishedContent>());
 			
 			var nodeService = new UmbracoNodeService(umbracoWrapper.Object);

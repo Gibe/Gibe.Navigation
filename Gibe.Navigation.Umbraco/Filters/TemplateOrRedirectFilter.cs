@@ -1,7 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco.Filters
 {
@@ -14,7 +14,7 @@ namespace Gibe.Navigation.Umbraco.Filters
 
 		private bool IsRedirect(IPublishedContent content)
 		{
-			return content.DocumentTypeAlias.Equals("redirect", StringComparison.CurrentCultureIgnoreCase);
+			return content.ContentType.Alias.Equals("redirect", StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private bool HasTemplate(IPublishedContent content)
@@ -66,7 +66,7 @@ namespace Gibe.Navigation.Umbraco.Filters
 		{
 			var contentMock = new Mock<IPublishedContent>();
 			contentMock.Setup(c => c.TemplateId).Returns(templateId);
-			contentMock.Setup(c => c.DocumentTypeAlias).Returns(docTypeAlias);
+			contentMock.Setup(c => c.ContentType).Returns(new PublishedContent());
 			return contentMock.Object;
 		}
 	}

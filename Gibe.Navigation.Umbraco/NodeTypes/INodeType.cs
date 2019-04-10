@@ -2,6 +2,7 @@
 using System.Linq;
 using JetBrains.Annotations;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco.NodeTypes
 {

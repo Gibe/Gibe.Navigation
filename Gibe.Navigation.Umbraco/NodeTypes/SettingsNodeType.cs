@@ -5,6 +5,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco.NodeTypes
 {
@@ -19,7 +20,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 
 		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
 		{
-			var settingsNodes = rootNodes.Where(r => r.DocumentTypeAlias == _docTypeAlias).ToList();
+			var settingsNodes = rootNodes.Where(r => r.ContentType.Alias == _docTypeAlias).ToList();
 			if (settingsNodes.Count > 1)
 			{
 				throw new InvalidOperationException("More than one matching node");
@@ -38,14 +39,14 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 			const string docType2 = "docType2";
 
 			var rootNodeMock1 = new Mock<IPublishedContent>();
-			rootNodeMock1.Setup(r => r.DocumentTypeAlias).Returns(docType1);
+			rootNodeMock1.Setup(r => r.ContentType.Alias).Returns(docType1);
 			var rootNodeMock2 = new Mock<IPublishedContent>();
-			rootNodeMock2.Setup(r => r.DocumentTypeAlias).Returns(docType2);
+			rootNodeMock2.Setup(r => r.ContentType.Alias).Returns(docType2);
 
 			var settingsNodeType = new SettingsNodeType(docType2);
 			var settingsNode = settingsNodeType.FindNode(new[] {rootNodeMock1.Object, rootNodeMock2.Object});
 
-			Assert.That(settingsNode.DocumentTypeAlias, Is.EqualTo(docType2));
+			Assert.That(settingsNode.ContentType.Alias, Is.EqualTo(docType2));
 		}
 
 		[Test]
@@ -54,9 +55,9 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 			const string docType1 = "docType1";
 			
 			var rootNodeMock1 = new Mock<IPublishedContent>();
-			rootNodeMock1.Setup(r => r.DocumentTypeAlias).Returns(docType1);
+			rootNodeMock1.Setup(r => r.ContentType.Alias).Returns(docType1);
 			var rootNodeMock2 = new Mock<IPublishedContent>();
-			rootNodeMock2.Setup(r => r.DocumentTypeAlias).Returns(docType1);
+			rootNodeMock2.Setup(r => r.ContentType.Alias).Returns(docType1);
 
 			var settingsNodeType = new SettingsNodeType(docType1);
 			Assert.Throws<InvalidOperationException>(() => settingsNodeType.FindNode(new[] { rootNodeMock1.Object, rootNodeMock2.Object }));

@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Gibe.DittoProcessors.Processors;
-using Gibe.DittoProcessors.Processors.Models;
 using Gibe.Navigation.Models;
 using NUnit.Framework;
-using Our.Umbraco.Ditto;
+using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Web;
 
 namespace Gibe.Navigation.Umbraco.Models
 {
-	public class UmbracoNavigationRedirectElement : INavigationElement
+	public class UmbracoNavigationRedirectElement : PublishedContentModel, INavigationElement
 	{
-		[UmbracoProperty("Name")]
-		public string Title { get; set; }
+		public UmbracoNavigationRedirectElement(IPublishedContent content) : base(content)
+		{
+		}
+
+		public string Title => this.Value<string>("Name");
 
 		public string NavTitle { get; set; }
 
@@ -19,13 +21,11 @@ namespace Gibe.Navigation.Umbraco.Models
 		[LinkPicker]
 		public LinkPickerModel Redirect { get; set; }
 
-		[DittoIgnore]
-		public string Url => Redirect?.Url;
+		public new string Url => Redirect?.Url;
 
 		public bool IsActive { get; set; }
 		public IEnumerable<INavigationElement> Items { get; set; }
 
-		[DittoIgnore]
 		public string Target => Redirect?.Target;
 
 		public bool IsVisible { get; set; }
@@ -34,9 +34,8 @@ namespace Gibe.Navigation.Umbraco.Models
 
 		public object Clone()
 		{
-			return new UmbracoNavigationRedirectElement
+			return new UmbracoNavigationRedirectElement(this)
 			{
-				Title = Title,
 				NavTitle = NavTitle,
 				Redirect = Redirect,
 				IsActive = IsActive,
@@ -74,6 +73,8 @@ namespace Gibe.Navigation.Umbraco.Models
 				return hashCode;
 			}
 		}
+
+		
 	}
 
 	[TestFixture]

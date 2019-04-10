@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gibe.UmbracoWrappers;
-using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Web.PublishedCache;
 
 namespace Gibe.Navigation.Umbraco.NodeTypes
 {
 	public class UrlNodeType : INodeType
 	{
-		private readonly IUmbracoWrapper _umbracoWrapper;
+		private readonly IPublishedContentCache _publishedContentCache;
 		private readonly string _url;
 
-		public UrlNodeType(IUmbracoWrapper umbracoWrapper, string url)
+		public UrlNodeType(IPublishedContentCache publishedContentCache, string url)
 		{
-			_umbracoWrapper = umbracoWrapper;
+			_publishedContentCache = publishedContentCache;
 			_url = url;
 		}
 
 		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
 		{
-			return _umbracoWrapper.TypedContent(_url);
+
+			return _publishedContentCache.TypedContent(_url);
+
 		}
 	}
 }

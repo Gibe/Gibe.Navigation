@@ -3,32 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Gibe.DittoServices.ModelConverters;
 using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.Models;
-using Gibe.UmbracoWrappers;
 using Moq;
 using NUnit.Framework;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco
 {
 	public class NavigationElementFactory : INavigationElementFactory
 	{
-		private readonly IModelConverter _modelConverter;
-		private readonly IUmbracoWrapper _umbracoWrapper;
 
-		public NavigationElementFactory(IModelConverter modelConverter, IUmbracoWrapper umbracoWrapper)
+		public NavigationElementFactory()
 		{
-			_modelConverter = modelConverter;
-			_umbracoWrapper = umbracoWrapper;
+
 		}
 
 		public INavigationElement Make(IPublishedContent content)
 		{
 			var model = IsRedirect(content)
-					? _modelConverter.ToModel<UmbracoNavigationRedirectElement>(content)
-					: (INavigationElement)_modelConverter.ToModel<UmbracoNavigationElement>(content);
+					? new UmbracoNavigationRedirectElement(content)
+					: (INavigationElement)new UmbracoNavigationElement(content);
 
 			model.IsVisible = ShowInNavigation(content);
 			return model;
@@ -56,12 +52,12 @@ namespace Gibe.Navigation.Umbraco
 
 			var wrapperMock = new Mock<IUmbracoWrapper>();
 			var contentMock = new Mock<IPublishedContent>();
-			contentMock.Setup(c => c.DocumentTypeAlias).Returns("page");
+			contentMock.Setup(c => c.ContentType.Alias).Returns("page");
 
 			var modelConverterMock = new Mock<IModelConverter>();
 			modelConverterMock.Setup(c => c.ToModel<UmbracoNavigationElement>(It.IsAny<IPublishedContent>(), null))
 				.Returns(element);
-			
+
 			var factory = new NavigationElementFactory(modelConverterMock.Object, wrapperMock.Object);
 			var result = factory.Make(contentMock.Object);
 

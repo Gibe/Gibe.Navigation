@@ -2,21 +2,20 @@
 using System.Linq;
 using Gibe.Navigation.Models;
 using NUnit.Framework;
-using Our.Umbraco.Ditto;
+using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Web;
 
 namespace Gibe.Navigation.Umbraco.Models
 {
-	public class UmbracoNavigationElement : INavigationElement
+	public class UmbracoNavigationElement : PublishedContentModel, INavigationElement
 	{
-		public UmbracoNavigationElement()
+		public UmbracoNavigationElement(IPublishedContent content) : base(content)
 		{
-			Items = new List<INavigationElement>();
+
 		}
 
-		[UmbracoProperty("Name")]
-		public string Title { get; set; }
-		public string NavTitle { get; set; }
-		public string Url { get; set; }
+		public string Title => this.Value<string>("Name");
+		public string NavTitle => this.Value<string>("NavTitle");
 		public bool IsActive { get; set; }
 		public IEnumerable<INavigationElement> Items { get; set; }
 		public string Target => "_self";
@@ -26,11 +25,8 @@ namespace Gibe.Navigation.Umbraco.Models
 
 		public object Clone()
 		{
-			return new UmbracoNavigationElement
+			return new UmbracoNavigationElement(this)
 			{
-				Title = Title,
-				NavTitle = NavTitle,
-				Url = Url,
 				IsActive = IsActive,
 				Items = Items.Select(i => (INavigationElement)i.Clone()).ToList(),
 				IsVisible = IsVisible
