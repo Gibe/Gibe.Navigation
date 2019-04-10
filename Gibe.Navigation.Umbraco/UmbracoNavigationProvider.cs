@@ -65,7 +65,6 @@ namespace Gibe.Navigation.Umbraco
 		private T ToNavigationElement(IPublishedContent content)
 		{
 			var model = _navigationElementFactory.Make(content);
-			model.Title = string.IsNullOrEmpty(model.NavTitle) ? content.Name : model.NavTitle;
 			model.Items = GetNavigationElements(content).Select(e => (INavigationElement)e).ToList();
 			return (T)model;
 		}

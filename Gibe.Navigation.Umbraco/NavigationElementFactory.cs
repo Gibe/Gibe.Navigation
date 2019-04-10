@@ -1,45 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.Models;
+using Gibe.UmbracoWrappers;
 using Moq;
 using NUnit.Framework;
-using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Web;
 
 namespace Gibe.Navigation.Umbraco
 {
 	public class NavigationElementFactory : INavigationElementFactory
 	{
+		private IUmbracoWrapper _umbracoWrapper;
 
-		public NavigationElementFactory()
+		public NavigationElementFactory(IUmbracoWrapper umbracoWrapper)
 		{
-
+			_umbracoWrapper = umbracoWrapper;
 		}
 
 		public INavigationElement Make(IPublishedContent content)
 		{
 			var model = IsRedirect(content)
-					? new UmbracoNavigationRedirectElement(content)
-					: (INavigationElement)new UmbracoNavigationElement(content);
+					? new UmbracoNavigationRedirectElement(content, _umbracoWrapper)
+					: (INavigationElement)new UmbracoNavigationElement(content, _umbracoWrapper);
 
-			model.IsVisible = ShowInNavigation(content);
 			return model;
 		}
 
 		private bool IsRedirect(IPublishedContent content)
 		{
-			return content.DocumentTypeAlias.Equals("redirect", StringComparison.CurrentCultureIgnoreCase);
+			return _umbracoWrapper.HasValue(content, "gibeNavigationRedirect");
 		}
 
-		private bool ShowInNavigation(IPublishedContent content)
-		{
-			return _umbracoWrapper.HasValue(content, "umbracoNaviHide") &&
-						 !_umbracoWrapper.GetPropertyValue<bool>(content, "umbracoNaviHide");
-		}
+
 	}
 
 	[TestFixture]
@@ -48,39 +41,31 @@ namespace Gibe.Navigation.Umbraco
 		[Test]
 		public void Make_Returns_UmbracoNavigationElement_For_Page()
 		{
-			var element = new UmbracoNavigationElement();
-
 			var wrapperMock = new Mock<IUmbracoWrapper>();
+			wrapperMock.Setup(w => w.HasValue(It.IsAny<IPublishedContent>(), "gibeNavigationRedirect"))
+				.Returns(false);
+
 			var contentMock = new Mock<IPublishedContent>();
-			contentMock.Setup(c => c.ContentType.Alias).Returns("page");
-
-			var modelConverterMock = new Mock<IModelConverter>();
-			modelConverterMock.Setup(c => c.ToModel<UmbracoNavigationElement>(It.IsAny<IPublishedContent>(), null))
-				.Returns(element);
-
-			var factory = new NavigationElementFactory(modelConverterMock.Object, wrapperMock.Object);
+			
+			var factory = new NavigationElementFactory(wrapperMock.Object);
 			var result = factory.Make(contentMock.Object);
 
-			Assert.That(result, Is.EqualTo(element));
+			Assert.That(result, Is.TypeOf<UmbracoNavigationElement>());
 		}
 
 		[Test]
 		public void Make_Returns_UmbracoNavigationRedirectElement_For_Redirect()
 		{
-			var element = new UmbracoNavigationRedirectElement();
-
 			var wrapperMock = new Mock<IUmbracoWrapper>();
+			wrapperMock.Setup(w => w.HasValue(It.IsAny<IPublishedContent>(), "gibeNavigationRedirect"))
+				.Returns(true);
+
 			var contentMock = new Mock<IPublishedContent>();
-			contentMock.Setup(c => c.DocumentTypeAlias).Returns("redirect");
-
-			var modelConverterMock = new Mock<IModelConverter>();
-			modelConverterMock.Setup(c => c.ToModel<UmbracoNavigationRedirectElement>(It.IsAny<IPublishedContent>(), null))
-				.Returns(element);
-
-			var factory = new NavigationElementFactory(modelConverterMock.Object, wrapperMock.Object);
+			
+			var factory = new NavigationElementFactory(wrapperMock.Object);
 			var result = factory.Make(contentMock.Object);
 
-			Assert.That(result, Is.EqualTo(element));
+			Assert.That(result, Is.TypeOf<UmbracoNavigationRedirectElement>());
 		}
 	}
 }

@@ -37,7 +37,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 
 		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
 		{
-			return rootNodes.First(x => x.DocumentTypeAlias == _rootDocumentTypeAlias);
+			return rootNodes.First(x => x.ContentType.Alias == _rootDocumentTypeAlias);
 		}
 	}
 }

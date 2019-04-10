@@ -8,8 +8,8 @@ namespace Gibe.Navigation.Models
 		string Title { get; }
 		string NavTitle { get; }
 		string Url { get; }
-		bool IsActive { get; }
-		IEnumerable<INavigationElement> Items { get; }
+		bool IsActive { get; set; }
+		IEnumerable<INavigationElement> Items { get; set; }
 		string Target { get; }
 		bool IsVisible { get; }
 		bool IsConcrete { get; }

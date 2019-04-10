@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web.PublishedCache;
 
@@ -19,7 +18,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
 		{
 
-			return _publishedContentCache.TypedContent(_url);
+			return _publishedContentCache.GetByRoute(_url);
 
 		}
 	}
