@@ -1,5 +1,7 @@
 ﻿using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.Filters;
+using Gibe.UmbracoWrappers;
+using Umbraco.Core;
 using Umbraco.Core.Composing;
 
 namespace Gibe.Navigation.Umbraco
@@ -8,11 +10,12 @@ namespace Gibe.Navigation.Umbraco
 	{
 		public void Compose(Composition composition)
 		{
-			composition.RegisterFor<INodeTypeFactory, DefaultNodeTypeFactory>();
-			composition.RegisterFor<INavigationElementFactory, NavigationElementFactory>();
-			composition.RegisterFor<INavigationProvider<INavigationElement>, UmbracoNavigationProvider<INavigationElement>>();
-			composition.RegisterFor<IUmbracoNodeService, UmbracoNodeService>();
-			composition.RegisterFor<INavigationFilter, TemplateOrRedirectFilter>();
+			composition.Register<INavigationElementFactory, NavigationElementFactory>();
+			composition.Register<IUmbracoWrapper, DefaultUmbracoWrapper>();
+			composition.Register<INodeTypeFactory, DefaultNodeTypeFactory>();
+			composition.Register<INavigationProvider<INavigationElement>, UmbracoNavigationProvider<INavigationElement>>();
+			composition.Register<IUmbracoNodeService, UmbracoNodeService>();
+			composition.Register<INavigationFilter, TemplateOrRedirectFilter>();
 		}
 	}
 }
