@@ -211,15 +211,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gibe.Navigation\Gibe.Navigation.csproj">
-      <Project>{F585D1E9-74D1-49FC-8700-DAE8C244BC25}</Project>
-      <Name>Gibe.Navigation</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="Gibe.Navigation.GibeCommerce.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gibe.Navigation\Gibe.Navigation.csproj">
+      <Project>{f585d1e9-74d1-49fc-8700-dae8c244bc25}</Project>
+      <Name>Gibe.Navigation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
