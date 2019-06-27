@@ -10,9 +10,10 @@ namespace Gibe.Navigation.Umbraco
 	{
 		public void Compose(Composition composition)
 		{
+			composition.Register<INavigationService, DefaultNavigationService>();
 			composition.Register<INavigationElementFactory, NavigationElementFactory>();
 			composition.Register<INodeTypeFactory, DefaultNodeTypeFactory>();
-			composition.Register<INavigationProvider<INavigationElement>, UmbracoNavigationProvider<INavigationElement>>();
+			composition.Register<INavigationProvider, UmbracoNavigationProvider>();
 			composition.Register<IUmbracoNodeService, UmbracoNodeService>();
 			composition.Register<INavigationFilter, TemplateOrRedirectFilter>();
 		}

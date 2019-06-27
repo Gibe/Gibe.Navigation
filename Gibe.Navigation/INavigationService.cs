@@ -2,22 +2,22 @@
 
 namespace Gibe.Navigation
 {
-	public interface INavigationService<T> where T : INavigationElement
+	public interface INavigationService
 	{
 		/// <summary>
 		/// Returns a navigation tree
 		/// </summary>
-		Navigation<T> GetNavigation();
+		Navigation<INavigationElement> GetNavigation();
 
 		/// <summary>
 		/// Returns a navigation tree with the current URL and any logical parents set as active
 		/// </summary>
-		Navigation<T> GetNavigation(string currentUrl);
+		Navigation<INavigationElement> GetNavigation(string currentUrl);
 
 		/// <summary>
 		/// Returns a model containing the parent and a child navigation tree with the current URL and any logical parents set as active
 		/// </summary>
-		SubNavigationModel<T> GetSubNavigation(string currentUrl);
+		SubNavigationModel<INavigationElement> GetSubNavigation(string currentUrl);
 	}
 }
 

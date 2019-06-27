@@ -9,13 +9,13 @@ namespace Gibe.Navigation
 	/// It may cache internally, and if so should manage its own cache invalidation.
 	/// It must be valid to reconfigure the active states of the returned objects.
 	/// </summary>
-	public interface INavigationProvider<T> where T : INavigationElement
+	public interface INavigationProvider
 	{
 		/// <summary>
 		/// Returns an ordered enumerable of navigation elements from the given source
 		/// </summary>
-		/// <returns>An ordered enumberable of navigation elements</returns>
-		IEnumerable<T> GetNavigationElements();
+		/// <returns>An ordered enumerable of navigation elements</returns>
+		IEnumerable<INavigationElement> GetNavigationElements();
 		
 		int Priority { get; }
 	}

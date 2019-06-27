@@ -7,7 +7,7 @@ using Umbraco.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco
 {
-	public class UmbracoNavigationProvider<T> : INavigationProvider<T> where T : INavigationElement
+	public class UmbracoNavigationProvider : INavigationProvider
 	{
 		private readonly INavigationElementFactory _navigationElementFactory;
 		private readonly INodeTypeFactory _nodeTypeFactory;
@@ -49,24 +49,24 @@ namespace Gibe.Navigation.Umbraco
 
 		public int Priority { get; }
 
-		public IEnumerable<T> GetNavigationElements()
+		public IEnumerable<INavigationElement> GetNavigationElements()
 		{
 			var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType));
 			return GetNavigationElements(topLevel);
 		}
 		
-		public IEnumerable<T> GetNavigationElements(IPublishedContent content)
+		public IEnumerable<INavigationElement> GetNavigationElements(IPublishedContent content)
 		{
 			var children = content.Children.Where(IncludeInNavigation);
 			var navItems = children.Select(ToNavigationElement);
 			return navItems.ToList();
 		}
 
-		private T ToNavigationElement(IPublishedContent content)
+		private INavigationElement ToNavigationElement(IPublishedContent content)
 		{
 			var model = _navigationElementFactory.Make(content);
-			model.Items = GetNavigationElements(content).Select(e => (INavigationElement)e).ToList();
-			return (T)model;
+			model.Items = GetNavigationElements(content).ToList();
+			return model;
 		}
 
 		private bool IncludeInNavigation(IPublishedContent content)

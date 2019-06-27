@@ -8,7 +8,7 @@ using GibeCommerce.SiteServices.UrlProviders;
 
 namespace Gibe.Navigation.GibeCommerce
 {
-	public class GibeCommerceNavigationProvider<T> : INavigationProvider<T> where T : INavigationElement
+	public class GibeCommerceNavigationProvider : INavigationProvider
 	{
 		private readonly ICatalogService _catalogService;
 		private readonly IUrlProvider _urlProvider;
@@ -20,12 +20,12 @@ namespace Gibe.Navigation.GibeCommerce
 			_urlProvider = urlProvider;
 		}
 
-		public IEnumerable<T> GetNavigationElements()
+		public IEnumerable<INavigationElement> GetNavigationElements()
 		{
 			var categories = _catalogService.GetSubCategories("root")
 				.Where(x => x.Name != "root" && IncludeInNavigation(x));
 
-			return categories.OrderBy(x => x.Rank).Select(x => (T) ToNavigationElement(x)).ToList();
+			return categories.OrderBy(x => x.Rank).Select(x => ToNavigationElement(x)).ToList();
 		}
 		
 		public int Priority { get; }
