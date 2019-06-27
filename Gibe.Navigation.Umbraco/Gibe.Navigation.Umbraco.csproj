@@ -60,8 +60,7 @@
       <HintPath>..\packages\UmbracoLinkPicker.1.5.1\lib\net45\Gibe.LinkPicker.Umbraco.dll</HintPath>
     </Reference>
     <Reference Include="Gibe.UmbracoWrappers, Version=23.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\UmbracoTestWrappers\UmbracoWrappers\bin\Debug\Gibe.UmbracoWrappers.dll</HintPath>
+      <HintPath>..\packages\Gibe.UmbracoWrappers.2.0.2\lib\Gibe.UmbracoWrappers.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.8.14.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.8.14\lib\Net45\HtmlAgilityPack.dll</HintPath>
