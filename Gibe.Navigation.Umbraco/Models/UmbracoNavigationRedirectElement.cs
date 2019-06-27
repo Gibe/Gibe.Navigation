@@ -14,6 +14,11 @@ namespace Gibe.Navigation.Umbraco.Models
 	{
 		private readonly IUmbracoWrapper _umbracoWrapper;
 
+		public UmbracoNavigationRedirectElement(IPublishedContent content) : this(content, new DefaultUmbracoWrapper())
+		{
+			
+		}
+		
 		public UmbracoNavigationRedirectElement(IPublishedContent content, IUmbracoWrapper umbracoWrapper) : base(content)
 		{
 			_umbracoWrapper = umbracoWrapper;

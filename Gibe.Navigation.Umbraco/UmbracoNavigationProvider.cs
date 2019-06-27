@@ -16,11 +16,26 @@ namespace Gibe.Navigation.Umbraco
 		private readonly IEnumerable<INavigationFilter> _filters;
 
 		public UmbracoNavigationProvider(
+			IUmbracoNodeService umbracoNodeService,
+			INodeTypeFactory nodeTypeFactory,
+			INavigationElementFactory navigationElementFactory
+			)
+			: this(
+				umbracoNodeService,
+				nodeTypeFactory,
+				1,
+				typeof(SettingsNodeType),
+				Enumerable.Empty<INavigationFilter>(),
+				navigationElementFactory)
+		{
+		}
+
+		public UmbracoNavigationProvider(
 				IUmbracoNodeService umbracoNodeService,
 				INodeTypeFactory nodeTypeFactory,
-				int priority,
 				IEnumerable<INavigationFilter> filters,
-				INavigationElementFactory navigationElementFactory)
+				INavigationElementFactory navigationElementFactory,
+				int priority)
 				: this(
 						umbracoNodeService, 
 						nodeTypeFactory, 
