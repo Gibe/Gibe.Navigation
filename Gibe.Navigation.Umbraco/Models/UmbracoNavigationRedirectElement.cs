@@ -12,18 +12,16 @@ namespace Gibe.Navigation.Umbraco.Models
 {
 	public class UmbracoNavigationRedirectElement : PublishedContentModel, INavigationElement
 	{
-		private readonly IUmbracoWrapper _umbracoWrapper;
 
-		public UmbracoNavigationRedirectElement(IPublishedContent content, IUmbracoWrapper umbracoWrapper) : base(content)
+		public UmbracoNavigationRedirectElement(IPublishedContent content) : base(content)
 		{
-			_umbracoWrapper = umbracoWrapper;
 		}
 
-		public string Title => _umbracoWrapper.Value<string>(this, "Name");
+		public string Title => this.Value<string>("Name");
 
-		public string NavTitle => _umbracoWrapper.Value<string>(this, "NavTitle");
+		public string NavTitle => this.Value<string>("NavTitle");
 
-		private Link Redirect => _umbracoWrapper.Value<Link>(this, "gibeNavigationRedirect");
+		private Link Redirect => this.Value<Link>("gibeNavigationRedirect");
 
 		public new string Url => Redirect?.Url;
 
@@ -32,13 +30,13 @@ namespace Gibe.Navigation.Umbraco.Models
 
 		public string Target => Redirect?.Target;
 
-		public bool IsVisible => _umbracoWrapper.HasValue(this, "umbracoNaviHide") && _umbracoWrapper.Value<bool>(this, "umbracoNaviHide");
+		public bool IsVisible => this.HasValue("umbracoNaviHide") && this.Value<bool>("umbracoNaviHide");
 		public bool IsConcrete => false;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
 
 		public object Clone()
 		{
-			return new UmbracoNavigationRedirectElement(this, _umbracoWrapper)
+			return new UmbracoNavigationRedirectElement(this)
 			{
 				IsActive = IsActive,
 				Items = Items.Select(i => (INavigationElement)i.Clone()).ToList(),
@@ -84,11 +82,11 @@ namespace Gibe.Navigation.Umbraco.Models
 		[Test]
 		public void Clone_Returns_Clone_Of_Element()
 		{
-			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), UmbracoWrapper())
+			var element = new UmbracoNavigationRedirectElement(FakePublishedContent())
 			{
 				Items = new List<INavigationElement>
 				{
-					new UmbracoNavigationElement(FakePublishedContent(), UmbracoWrapper())
+					new UmbracoNavigationElement(FakePublishedContent())
 				}
 			};
 			var clone = element.Clone();
@@ -100,12 +98,12 @@ namespace Gibe.Navigation.Umbraco.Models
 		[Test]
 		public void HasVisibleChildren_Returns_True_If_At_Least_One_Visible_Child()
 		{
-			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), UmbracoWrapper())
+			var element = new UmbracoNavigationRedirectElement(FakePublishedContent())
 			{
 				Items = new List<INavigationElement>
 				{
-					new UmbracoNavigationElement(FakePublishedContent(), UmbracoWrapper()),
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper())
+					new UmbracoNavigationElement(FakePublishedContent()),
+					new UmbracoNavigationElement(FakePublishedContent(false))
 				}
 			};
 
@@ -115,12 +113,12 @@ namespace Gibe.Navigation.Umbraco.Models
 		[Test]
 		public void HasVisibleChildren_Returns_False_If_At_No_Visible_Child()
 		{
-			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), UmbracoWrapper())
+			var element = new UmbracoNavigationRedirectElement(FakePublishedContent())
 			{
 				Items = new List<INavigationElement>
 				{
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper()),
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper())
+					new UmbracoNavigationElement(FakePublishedContent(false)),
+					new UmbracoNavigationElement(FakePublishedContent(false))
 				}
 			};
 

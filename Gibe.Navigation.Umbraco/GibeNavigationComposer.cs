@@ -12,9 +12,9 @@ namespace Gibe.Navigation.Umbraco
 		{
 			composition.Register<INavigationElementFactory, NavigationElementFactory>();
 			composition.Register<INodeTypeFactory, DefaultNodeTypeFactory>();
-			composition.Register<INavigationProvider<INavigationElement>, UmbracoNavigationProvider<INavigationElement>>();
 			composition.Register<IUmbracoNodeService, UmbracoNodeService>();
 			composition.Register<INavigationFilter, TemplateOrRedirectFilter>();
+			composition.Register<INavigationProvider<INavigationElement>, UmbracoNavigationProvider<INavigationElement>>();
 		}
 	}
 }

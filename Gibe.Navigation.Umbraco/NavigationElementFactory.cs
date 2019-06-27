@@ -21,8 +21,8 @@ namespace Gibe.Navigation.Umbraco
 		public INavigationElement Make(IPublishedContent content)
 		{
 			var model = IsRedirect(content)
-					? new UmbracoNavigationRedirectElement(content, _umbracoWrapper)
-					: (INavigationElement)new UmbracoNavigationElement(content, _umbracoWrapper);
+					? new UmbracoNavigationRedirectElement(content)
+					: (INavigationElement)new UmbracoNavigationElement(content);
 
 			return model;
 		}
