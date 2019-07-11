@@ -23,7 +23,7 @@ namespace Gibe.Navigation.Umbraco.Models
 			Items = new List<INavigationElement>();
 		}
 
-		public string Title => _umbracoWrapper.Value<string>(this, "Name");
+		public string Title => base.Name;
 		public string NavTitle => _umbracoWrapper.Value<string>(this, "NavTitle");
 		public bool IsActive { get; set; }
 		public IEnumerable<INavigationElement> Items { get; set; }

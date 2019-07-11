@@ -5,7 +5,6 @@ using Gibe.UmbracoWrappers;
 using Moq;
 using NUnit.Framework;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
 using Umbraco.Web.Models;
 
 namespace Gibe.Navigation.Umbraco.Models
@@ -23,7 +22,7 @@ namespace Gibe.Navigation.Umbraco.Models
 			_umbracoWrapper = umbracoWrapper;
 		}
 
-		public string Title => _umbracoWrapper.Value<string>(this, "Name");
+		public string Title => base.Name;
 
 		public string NavTitle => _umbracoWrapper.Value<string>(this, "NavTitle");
 
