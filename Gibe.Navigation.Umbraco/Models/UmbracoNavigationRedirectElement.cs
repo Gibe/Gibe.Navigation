@@ -35,7 +35,8 @@ namespace Gibe.Navigation.Umbraco.Models
 
 		public string Target => Redirect?.Target;
 
-		public bool IsVisible => _umbracoWrapper.HasValue(this, "umbracoNaviHide") && _umbracoWrapper.Value<bool>(this, "umbracoNaviHide");
+		public bool IsVisible => !_umbracoWrapper.HasValue(this, "umbracoNaviHide") ||
+		                         !_umbracoWrapper.Value<bool>(this, "umbracoNaviHide");
 		public bool IsConcrete => false;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
 

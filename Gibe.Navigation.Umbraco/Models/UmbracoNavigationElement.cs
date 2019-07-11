@@ -28,7 +28,8 @@ namespace Gibe.Navigation.Umbraco.Models
 		public bool IsActive { get; set; }
 		public IEnumerable<INavigationElement> Items { get; set; }
 		public string Target => "_self";
-		public bool IsVisible => _umbracoWrapper.HasValue(this, "umbracoNaviHide") && _umbracoWrapper.Value<bool>(this, "umbracoNaviHide");
+		public bool IsVisible => !_umbracoWrapper.HasValue(this, "umbracoNaviHide") ||
+		                         !_umbracoWrapper.Value<bool>(this, "umbracoNaviHide");
 		public bool IsConcrete => true;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
 
