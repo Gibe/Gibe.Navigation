@@ -11,7 +11,12 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 	{
 		private readonly string _docTypeAlias;
 
-		public SettingsNodeType(string docTypeAlias = "site")
+		public SettingsNodeType() : this("site")
+		{
+
+		}
+
+		public SettingsNodeType(string docTypeAlias)
 		{
 			_docTypeAlias = docTypeAlias;
 		}

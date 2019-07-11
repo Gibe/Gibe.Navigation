@@ -10,9 +10,9 @@ namespace Gibe.Navigation.Umbraco
 {
 	public class UmbracoNodeService : IUmbracoNodeService
 	{
-		private readonly IPublishedContentCache _publishedContentCache;
+		private readonly IPublishedSnapshotService _publishedContentCache;
 		
-		public UmbracoNodeService(IPublishedContentCache publishedContentCache)
+		public UmbracoNodeService(IPublishedSnapshotService publishedContentCache)
 		{
 			_publishedContentCache = publishedContentCache;
 		}
@@ -20,10 +20,10 @@ namespace Gibe.Navigation.Umbraco
 		[NotNull]
 		public IPublishedContent GetNode([NotNull]INodeType nodeType)
 		{
-			return nodeType.FindNode(_publishedContentCache.GetAtRoot());
+			return nodeType.FindNode(_publishedContentCache.PublishedSnapshotAccessor.PublishedSnapshot.Content.GetAtRoot());
 		}
 	}
-
+	
 	[TestFixture]
 	internal class UmbracoNodeServiceTests
 	{
@@ -33,10 +33,22 @@ namespace Gibe.Navigation.Umbraco
 			var mockContent = new Mock<IPublishedContent>().Object;
 
 			var publishedContentCache = new Mock<IPublishedContentCache>();
-			publishedContentCache.Setup(u => u.GetAtRoot())
-				.Returns(new List<IPublishedContent>());
+			publishedContentCache.Setup(p => p.GetAtRoot(null))
+				.Returns(new List<IPublishedContent> { mockContent});
+
+			var publishedSnapshot = new Mock<IPublishedSnapshot>();
+			publishedSnapshot.Setup(p => p.Content)
+				.Returns(publishedContentCache.Object);
+
+			var publishedContentAccessor = new Mock<IPublishedSnapshotAccessor>();
+			publishedContentAccessor.Setup(p => p.PublishedSnapshot)
+				.Returns(publishedSnapshot.Object);
+
+			var publishedSnapshotService = new Mock<IPublishedSnapshotService>();
+			publishedSnapshotService.Setup(u => u.PublishedSnapshotAccessor)
+				.Returns(publishedContentAccessor.Object);
 			
-			var nodeService = new UmbracoNodeService(publishedContentCache.Object);
+			var nodeService = new UmbracoNodeService(publishedSnapshotService.Object);
 			var result = nodeService.GetNode(new FakeNodeType(mockContent));
 
 			Assert.That(result, Is.EqualTo(mockContent));

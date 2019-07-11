@@ -1,6 +1,5 @@
-﻿using Gibe.Navigation.Models;
-using Gibe.Navigation.Umbraco.Filters;
-using Gibe.UmbracoWrappers;
+﻿using Gibe.Navigation.Umbraco.Filters;
+using Gibe.Navigation.Umbraco.NodeTypes;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
 
@@ -16,6 +15,9 @@ namespace Gibe.Navigation.Umbraco
 			composition.Register<INavigationProvider, UmbracoNavigationProvider>();
 			composition.Register<IUmbracoNodeService, UmbracoNodeService>();
 			composition.Register<INavigationFilter, TemplateOrRedirectFilter>();
+
+			composition.Register<INodeType, SettingsNodeType>();
+
 		}
 	}
 }

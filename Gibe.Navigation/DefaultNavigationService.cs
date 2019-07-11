@@ -13,19 +13,24 @@ namespace Gibe.Navigation
 		
 		private readonly string _cacheKey;
 
-		public DefaultNavigationService(ICache cache, IEnumerable<INavigationProvider> providers, string cacheKey = "navigation")
+		public DefaultNavigationService(ICache cache, IEnumerable<INavigationProvider> providers) : this(cache, providers, "navigation")
+		{
+
+		}
+
+		public DefaultNavigationService(ICache cache, IEnumerable<INavigationProvider> providers, string cacheKey)
 		{
 			_cache = cache;
 			_providers = providers;
 			_cacheKey = cacheKey;
 		}
 
-		public Navigation<INavigationElement> GetNavigation()
+		public Navigation<INavigationElement> Navigation()
 		{
-			return GetNavigation(null);
+			return Navigation(null);
 		}
 
-		public Navigation<INavigationElement> GetNavigation(string currentUrl)
+		public Navigation<INavigationElement> Navigation(string currentUrl)
 		{
 			List<INavigationElement> navElements;
 
@@ -36,7 +41,7 @@ namespace Gibe.Navigation
 			else
 			{
 				navElements = _providers.OrderBy(p => p.Priority)
-					.SelectMany(p => p.GetNavigationElements())
+					.SelectMany(p => p.NavigationElements())
 					.ToList();
 				_cache.Add(_cacheKey, navElements, new TimeSpan(0, 10, 0));
 			}
@@ -48,9 +53,9 @@ namespace Gibe.Navigation
 		}
 
 
-		public SubNavigationModel<INavigationElement> GetSubNavigation(string currentUrl)
+		public SubNavigationModel<INavigationElement> SubNavigation(string currentUrl)
 		{
-			var navigation = GetNavigation(currentUrl);
+			var navigation = Navigation(currentUrl);
 			var section = navigation.Items.FirstOrDefault(i => i.IsActive);
 			
 			return new SubNavigationModel<INavigationElement>

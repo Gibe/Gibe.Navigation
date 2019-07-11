@@ -15,7 +15,7 @@ namespace Gibe.Navigation
 		/// Returns an ordered enumerable of navigation elements from the given source
 		/// </summary>
 		/// <returns>An ordered enumerable of navigation elements</returns>
-		IEnumerable<INavigationElement> GetNavigationElements();
+		IEnumerable<INavigationElement> NavigationElements();
 		
 		int Priority { get; }
 	}

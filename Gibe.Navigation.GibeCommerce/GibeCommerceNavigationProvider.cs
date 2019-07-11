@@ -20,7 +20,7 @@ namespace Gibe.Navigation.GibeCommerce
 			_urlProvider = urlProvider;
 		}
 
-		public IEnumerable<INavigationElement> GetNavigationElements()
+		public IEnumerable<INavigationElement> NavigationElements()
 		{
 			var categories = _catalogService.GetSubCategories("root")
 				.Where(x => x.Name != "root" && IncludeInNavigation(x));

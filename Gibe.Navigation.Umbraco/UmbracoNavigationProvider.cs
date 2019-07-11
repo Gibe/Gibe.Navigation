@@ -16,28 +16,39 @@ namespace Gibe.Navigation.Umbraco
 		private readonly IEnumerable<INavigationFilter> _filters;
 
 		public UmbracoNavigationProvider(
+			IUmbracoNodeService umbracoNodeService,
+			INodeTypeFactory nodeTypeFactory,
+			INavigationElementFactory navigationElementFactory)
+			: 
+				this(umbracoNodeService, nodeTypeFactory, navigationElementFactory, null, 1)
+		
+		{
+
+		}
+
+		public UmbracoNavigationProvider(
 				IUmbracoNodeService umbracoNodeService,
 				INodeTypeFactory nodeTypeFactory,
-				int priority,
-				IEnumerable<INavigationFilter> filters,
-				INavigationElementFactory navigationElementFactory)
+				INavigationElementFactory navigationElementFactory,
+				IEnumerable<INavigationFilter> filters = null,
+				int priority = 1)
 				: this(
 						umbracoNodeService, 
 						nodeTypeFactory, 
-						priority, 
 						typeof(SettingsNodeType), 
-						filters, 
-						navigationElementFactory)
+						filters??Enumerable.Empty<INavigationFilter>(), 
+						navigationElementFactory,
+						priority)
 		{
 		}
 
 		public UmbracoNavigationProvider(
 				IUmbracoNodeService umbracoNodeService,
 				INodeTypeFactory nodeTypeFactory,
-				int priority,
 				Type rootNodeType,
 				IEnumerable<INavigationFilter> filters,
-				INavigationElementFactory navigationElementFactory)
+				INavigationElementFactory navigationElementFactory,
+				int priority = 1)
 		{
 			_umbracoNodeService = umbracoNodeService;
 			_nodeTypeFactory = nodeTypeFactory;
@@ -49,13 +60,13 @@ namespace Gibe.Navigation.Umbraco
 
 		public int Priority { get; }
 
-		public IEnumerable<INavigationElement> GetNavigationElements()
+		public IEnumerable<INavigationElement> NavigationElements()
 		{
 			var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType));
-			return GetNavigationElements(topLevel);
+			return NavigationElements(topLevel);
 		}
 		
-		public IEnumerable<INavigationElement> GetNavigationElements(IPublishedContent content)
+		public IEnumerable<INavigationElement> NavigationElements(IPublishedContent content)
 		{
 			var children = content.Children.Where(IncludeInNavigation);
 			var navItems = children.Select(ToNavigationElement);
@@ -65,7 +76,7 @@ namespace Gibe.Navigation.Umbraco
 		private INavigationElement ToNavigationElement(IPublishedContent content)
 		{
 			var model = _navigationElementFactory.Make(content);
-			model.Items = GetNavigationElements(content).ToList();
+			model.Items = NavigationElements(content).ToList();
 			return model;
 		}
 
