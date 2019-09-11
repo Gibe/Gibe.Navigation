@@ -1,11 +1,9 @@
-﻿using System;
-using Gibe.Navigation.Models;
+﻿using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.Models;
 using Gibe.UmbracoWrappers;
 using Moq;
 using NUnit.Framework;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
 
 namespace Gibe.Navigation.Umbraco
 {
@@ -24,6 +22,8 @@ namespace Gibe.Navigation.Umbraco
 					? new UmbracoNavigationRedirectElement(content, _umbracoWrapper)
 					: (INavigationElement)new UmbracoNavigationElement(content, _umbracoWrapper);
 
+			model = HyrdateExtraProperties(content, model);
+
 			return model;
 		}
 
@@ -32,7 +32,10 @@ namespace Gibe.Navigation.Umbraco
 			return _umbracoWrapper.HasValue(content, "gibeNavigationRedirect");
 		}
 
-
+		public virtual INavigationElement HyrdateExtraProperties(IPublishedContent content, INavigationElement element)
+		{
+			return element;
+		}
 	}
 
 	[TestFixture]

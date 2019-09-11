@@ -25,5 +25,6 @@ namespace Gibe.Navigation.GibeCommerce.Models
 		public bool IsVisible { get; set; }
 		public bool IsConcrete => true;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
+		public Dictionary<string, object> ExtraProperties { get; set; }
 	}
 }

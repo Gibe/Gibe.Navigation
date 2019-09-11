@@ -274,9 +274,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GibeNavigationComposer.cs" />
+    <Compile Include="Composers\GibeNavigationComposer.cs" />
     <Compile Include="DefaultNodeTypeFactory.cs" />
     <Compile Include="Filters\TemplateOrRedirectFilter.cs" />
+    <Compile Include="Composers\GibeNavigationFactoryComposer.cs" />
     <Compile Include="INavigationElementFactory.cs" />
     <Compile Include="INavigationFilter.cs" />
     <Compile Include="INodeTypeFactory.cs" />

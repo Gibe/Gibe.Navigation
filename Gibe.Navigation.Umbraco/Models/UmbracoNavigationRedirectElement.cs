@@ -40,6 +40,8 @@ namespace Gibe.Navigation.Umbraco.Models
 		public bool IsConcrete => false;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
 
+		public Dictionary<string, object> ExtraProperties { get; set; }
+
 		public object Clone()
 		{
 			return new UmbracoNavigationRedirectElement(this, _umbracoWrapper)
