@@ -151,9 +151,9 @@ namespace Gibe.Navigation.Umbraco.Models
 		{
 			var wrapper = new Mock<IUmbracoWrapper>();
 			wrapper.Setup(w => w.HasValue(It.IsAny<IPublishedContent>(), "umbracoNaviHide"))
-				.Returns((IPublishedContent content, string alias) => content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
+				.Returns((IPublishedContent content, string alias) => !content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
 			wrapper.Setup(w => w.Value<bool>(It.IsAny<IPublishedContent>(), "umbracoNaviHide"))
-				.Returns((IPublishedContent content, string alias) => content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
+				.Returns((IPublishedContent content, string alias) => !content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
 			return wrapper.Object;
 		}
 	}

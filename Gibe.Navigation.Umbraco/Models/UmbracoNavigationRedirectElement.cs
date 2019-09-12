@@ -121,12 +121,14 @@ namespace Gibe.Navigation.Umbraco.Models
 		[Test]
 		public void HasVisibleChildren_Returns_False_If_At_No_Visible_Child()
 		{
-			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), UmbracoWrapper())
+			var wrapper = UmbracoWrapper();
+
+			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), wrapper)
 			{
 				Items = new List<INavigationElement>
 				{
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper()),
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper())
+					new UmbracoNavigationElement(FakePublishedContent(false), wrapper),
+					new UmbracoNavigationElement(FakePublishedContent(false), wrapper)
 				}
 			};
 
@@ -159,9 +161,9 @@ namespace Gibe.Navigation.Umbraco.Models
 		{
 			var wrapper = new Mock<IUmbracoWrapper>();
 			wrapper.Setup(w => w.HasValue(It.IsAny<IPublishedContent>(), "umbracoNaviHide"))
-				.Returns((IPublishedContent content, string alias) => content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
+				.Returns((IPublishedContent content, string alias) => !content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
 			wrapper.Setup(w => w.Value<bool>(It.IsAny<IPublishedContent>(), "umbracoNaviHide"))
-				.Returns((IPublishedContent content, string alias) => content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
+				.Returns((IPublishedContent content, string alias) => !content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
 			return wrapper.Object;
 		}
 	}
