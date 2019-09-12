@@ -6,6 +6,8 @@ namespace Gibe.Navigation.Umbraco
 	public interface INavigationElementFactory
 	{
 		INavigationElement Make(IPublishedContent content);
+
+		INavigationElement HyrdateExtraProperties(IPublishedContent content, INavigationElement element);
 	}
 
 	public class FakeNavigationElementFactory : INavigationElementFactory
@@ -18,6 +20,11 @@ namespace Gibe.Navigation.Umbraco
 		}
 
 		public INavigationElement Make(IPublishedContent content)
+		{
+			return _navigationElement;
+		}
+
+		public INavigationElement HyrdateExtraProperties(IPublishedContent content, INavigationElement element)
 		{
 			return _navigationElement;
 		}

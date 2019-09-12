@@ -14,5 +14,6 @@ namespace Gibe.Navigation.Models
 		bool IsVisible { get; }
 		bool IsConcrete { get; }
 		bool HasVisibleChildren { get; }
+		Dictionary<string, object> ExtraProperties { get; set; }
 	}
 }

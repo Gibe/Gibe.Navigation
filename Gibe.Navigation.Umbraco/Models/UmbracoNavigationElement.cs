@@ -33,12 +33,15 @@ namespace Gibe.Navigation.Umbraco.Models
 		public bool IsConcrete => true;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
 
+		public Dictionary<string, object> ExtraProperties { get; set; }
+
 		public object Clone()
 		{
 			return new UmbracoNavigationElement(this, _umbracoWrapper)
 			{
 				IsActive = IsActive,
 				Items = Items.Select(i => (INavigationElement)i.Clone()).ToList(),
+				ExtraProperties = ExtraProperties
 			};
 		}
 
