@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gibe.Caching.Interfaces;
 using Gibe.Navigation.Models;
+#if NET45
+using Gibe.Caching.Interfaces;
+#endif
 
 namespace Gibe.Navigation
 {
