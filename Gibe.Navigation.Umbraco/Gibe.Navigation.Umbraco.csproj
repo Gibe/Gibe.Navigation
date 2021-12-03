@@ -13,9 +13,10 @@
 	<ItemGroup>
 	  <PackageReference Include="Gibe.UmbracoWrappers" Version="2.0.2" />
 	  <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
 	  <PackageReference Include="Moq" Version="4.16.1" />
 	  <PackageReference Include="NUnit" Version="3.13.2" />
-	  <PackageReference Include="NUnit.ConsoleRunner" Version="3.6.1" />
+	  <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
 	  <PackageReference Include="UmbracoCms.Core" Version="8.1.0" />
 	  <PackageReference Include="UmbracoCms.Web" Version="8.1.0" />
 	</ItemGroup>
