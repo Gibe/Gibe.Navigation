@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gibe.Navigation", "Gibe.Navigation\Gibe.Navigation.csproj", "{F585D1E9-74D1-49FC-8700-DAE8C244BC25}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gibe.Navigation.GibeCommerce", "Gibe.Navigation.GibeCommerce\Gibe.Navigation.GibeCommerce.csproj", "{DFCA77AF-1331-47D8-969B-946B97C9CAFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gibe.Navigation.Umbraco.V9", "Gibe.Navigation.Umbraco.V9\Gibe.Navigation.Umbraco.V9.csproj", "{86172156-D8C4-4927-BC99-239BE1CE4D57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +34,15 @@ Global
 		{DFCA77AF-1331-47D8-969B-946B97C9CAFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFCA77AF-1331-47D8-969B-946B97C9CAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFCA77AF-1331-47D8-969B-946B97C9CAFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86172156-D8C4-4927-BC99-239BE1CE4D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86172156-D8C4-4927-BC99-239BE1CE4D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86172156-D8C4-4927-BC99-239BE1CE4D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86172156-D8C4-4927-BC99-239BE1CE4D57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37ACB079-0BCD-4F47-B458-34ECF0F524CB}
 	EndGlobalSection
 EndGlobal

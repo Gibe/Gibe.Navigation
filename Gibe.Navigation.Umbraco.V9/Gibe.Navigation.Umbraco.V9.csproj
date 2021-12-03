@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<PackageId>Gibe.Navigation.Umbraco.V9</PackageId>
+		<PackageVersion>9.0.0</PackageVersion>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageTags>Gibe Navigation Umbraco</PackageTags>
+		<Authors>Gibe Digital Ltd</Authors>
+		<Version>9.0.0</Version>
+	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="9.1.1" />
+	  <ProjectReference Include="..\Gibe.Navigation\Gibe.Navigation.csproj" />
+  </ItemGroup>
+
+</Project>
