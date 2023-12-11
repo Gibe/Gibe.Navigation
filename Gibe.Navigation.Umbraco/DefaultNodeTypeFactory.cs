@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Gibe.Navigation.Umbraco.NodeTypes;
 using NUnit.Framework;
 
@@ -12,7 +11,18 @@ namespace Gibe.Navigation.Umbraco
 
 		public DefaultNodeTypeFactory(IEnumerable<INodeType> nodeTypes)
 		{
-			_nodeTypes = nodeTypes.ToDictionary(n => n.GetType(), n => n);
+			_nodeTypes = new Dictionary<Type, INodeType>();
+			foreach (var nodeType in nodeTypes)
+			{
+				if (_nodeTypes.ContainsKey(nodeType.GetType()))
+				{
+					continue;
+				}
+				else
+				{
+					_nodeTypes.Add(nodeType.GetType(), nodeType);
+				}
+			}
 		}
 
 		public INodeType GetNodeType<T>() where T : INodeType
