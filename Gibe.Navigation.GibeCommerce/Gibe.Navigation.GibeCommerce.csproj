@@ -1,21 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<PackageId>Gibe.Navigation.GibeCommerce</PackageId>
-		<PackageVersion>9.0.0</PackageVersion>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageTags>Gibe Navigation GibeCommerce</PackageTags>
-		<Authors>Gibe Digital Ltd</Authors>
-		<Version>9.0.0</Version>
-	</PropertyGroup>
-	<PropertyGroup>
-		<TargetFramework>net472</TargetFramework>
-	</PropertyGroup>
-	<ItemGroup>
-	  <PackageReference Include="GibeCommerce.SiteServices" Version="11.21.0.8380" />
-	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Gibe.Navigation\Gibe.Navigation.csproj" />
-	</ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Gibe.Navigation.GibeCommerce</PackageId>
+        <Version>17.0.0</Version>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageTags>Gibe Navigation GibeCommerce</PackageTags>
+        <Authors>Gibe Digital Ltd</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="GibeCommerce.SiteServices" Version="18.0.0.12101" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Gibe.Navigation\Gibe.Navigation.csproj" />
+    </ItemGroup>
 
 </Project>

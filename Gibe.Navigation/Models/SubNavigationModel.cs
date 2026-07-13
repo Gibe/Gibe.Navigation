@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Gibe.Navigation.Models
 {
 	public class SubNavigationModel<T> where T : INavigationElement
 	{
-		public INavigationElement SectionParent { get; set; }
+		public INavigationElement? SectionParent { get; set; }
 
-		public IEnumerable<T> NavigationElements { get; set; }
+		public required IEnumerable<T> NavigationElements { get; set; }
 	}
 }

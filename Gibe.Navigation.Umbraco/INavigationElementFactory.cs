@@ -1,5 +1,5 @@
 ﻿using Gibe.Navigation.Models;
-using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco
 {

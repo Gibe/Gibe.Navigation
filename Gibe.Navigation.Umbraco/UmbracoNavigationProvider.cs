@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gibe.Navigation;
 using Gibe.Navigation.Models;
 using Gibe.Navigation.Umbraco.NodeTypes;
-using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Services.Navigation;
+using Umbraco.Extensions;
 
 namespace Gibe.Navigation.Umbraco
 {
@@ -14,14 +17,18 @@ namespace Gibe.Navigation.Umbraco
 		private readonly Type _rootNodeType;
 		private readonly IUmbracoNodeService _umbracoNodeService;
 		private readonly IEnumerable<INavigationFilter> _filters;
+		private readonly IDocumentNavigationQueryService _navigationQueryService;
+		private readonly IPublishedStatusFilteringService _publishedStatusFilteringService;
 
 		public UmbracoNavigationProvider(
 			IUmbracoNodeService umbracoNodeService,
 			INodeTypeFactory nodeTypeFactory,
-			INavigationElementFactory navigationElementFactory)
-			: 
-				this(umbracoNodeService, nodeTypeFactory, navigationElementFactory, null, 1)
-		
+			INavigationElementFactory navigationElementFactory,
+			IDocumentNavigationQueryService navigationQueryService,
+			IPublishedStatusFilteringService publishedStatusFilteringService)
+			:
+				this(umbracoNodeService, nodeTypeFactory, navigationElementFactory, navigationQueryService, publishedStatusFilteringService, null, 1)
+
 		{
 
 		}
@@ -30,14 +37,18 @@ namespace Gibe.Navigation.Umbraco
 				IUmbracoNodeService umbracoNodeService,
 				INodeTypeFactory nodeTypeFactory,
 				INavigationElementFactory navigationElementFactory,
-				IEnumerable<INavigationFilter> filters = null,
+				IDocumentNavigationQueryService navigationQueryService,
+				IPublishedStatusFilteringService publishedStatusFilteringService,
+				IEnumerable<INavigationFilter>? filters = null,
 				int priority = 1)
 				: this(
-						umbracoNodeService, 
-						nodeTypeFactory, 
-						typeof(SettingsNodeType), 
-						filters??Enumerable.Empty<INavigationFilter>(), 
+						umbracoNodeService,
+						nodeTypeFactory,
+						typeof(SettingsNodeType),
+						filters??Enumerable.Empty<INavigationFilter>(),
 						navigationElementFactory,
+						navigationQueryService,
+						publishedStatusFilteringService,
 						priority)
 		{
 		}
@@ -48,6 +59,8 @@ namespace Gibe.Navigation.Umbraco
 				Type rootNodeType,
 				IEnumerable<INavigationFilter> filters,
 				INavigationElementFactory navigationElementFactory,
+				IDocumentNavigationQueryService navigationQueryService,
+				IPublishedStatusFilteringService publishedStatusFilteringService,
 				int priority = 1)
 		{
 			_umbracoNodeService = umbracoNodeService;
@@ -56,6 +69,8 @@ namespace Gibe.Navigation.Umbraco
 			_rootNodeType = rootNodeType;
 			_filters = filters;
 			_navigationElementFactory = navigationElementFactory;
+			_navigationQueryService = navigationQueryService;
+			_publishedStatusFilteringService = publishedStatusFilteringService;
 		}
 
 		public int Priority { get; }
@@ -63,12 +78,18 @@ namespace Gibe.Navigation.Umbraco
 		public IEnumerable<INavigationElement> NavigationElements()
 		{
 			var topLevel = _umbracoNodeService.GetNode(_nodeTypeFactory.GetNodeType(_rootNodeType));
+			if (topLevel == null)
+			{
+				return Enumerable.Empty<INavigationElement>();
+			}
 			return NavigationElements(topLevel);
 		}
-		
+
 		public IEnumerable<INavigationElement> NavigationElements(IPublishedContent content)
 		{
-			var children = content.Children.Where(IncludeInNavigation);
+			var children = content
+				.Children(_navigationQueryService, _publishedStatusFilteringService)
+				.Where(IncludeInNavigation);
 			var navItems = children.Select(ToNavigationElement);
 			return navItems.ToList();
 		}

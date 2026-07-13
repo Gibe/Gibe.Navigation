@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Gibe.Navigation.Models;
-#if NET45
-using Gibe.Caching.Interfaces;
-#endif
+﻿using Gibe.Navigation.Models;
 
 namespace Gibe.Navigation
 {
@@ -32,7 +26,7 @@ namespace Gibe.Navigation
 			return Navigation(null);
 		}
 
-		public Navigation<INavigationElement> Navigation(string currentUrl)
+		public Navigation<INavigationElement> Navigation(string? currentUrl)
 		{
 			List<INavigationElement> navElements;
 
@@ -59,15 +53,15 @@ namespace Gibe.Navigation
 		{
 			var navigation = Navigation(currentUrl);
 			var section = navigation.Items.FirstOrDefault(i => i.IsActive);
-			
+
 			return new SubNavigationModel<INavigationElement>
 			{
 				SectionParent = section,
-				NavigationElements = section.Items
+				NavigationElements = section!.Items
 			};
 		}
 
-		private List<INavigationElement> Active(List<INavigationElement> elements, string currentUrl)
+		private List<INavigationElement> Active(List<INavigationElement> elements, string? currentUrl)
 		{
 			var clone = Clone(elements).ToList();
 			if (currentUrl != null)

@@ -1,5 +1,4 @@
-﻿#if NETCORE 
-using System;
+﻿using System;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gibe.Navigation
@@ -22,7 +21,7 @@ namespace Gibe.Navigation
 
 		public T Get<T>(string key)
 		{
-			return _memoryCache.Get<T>(key);
+			return _memoryCache.Get<T>(key)!;
 		}
 
 		public void Add(string key, object value, TimeSpan timeSpan)
@@ -35,5 +34,4 @@ namespace Gibe.Navigation
 			return _memoryCache.TryGetValue(key, out _);
 		}
 	}
- }
-#endif
+}

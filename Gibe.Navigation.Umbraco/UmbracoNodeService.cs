@@ -1,26 +1,36 @@
-﻿using Gibe.Navigation.Umbraco.NodeTypes;
-using JetBrains.Annotations;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
+using Gibe.Navigation.Umbraco.NodeTypes;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.PublishedCache;
+using Umbraco.Cms.Core.Services.Navigation;
+using Umbraco.Extensions;
 
 namespace Gibe.Navigation.Umbraco
 {
 	public class UmbracoNodeService : IUmbracoNodeService
 	{
-		private readonly IUmbracoContextFactory _umbracoContextFactory;
-		
-		public UmbracoNodeService(IUmbracoContextFactory umbracoContextFactory)
+		private readonly IDocumentNavigationQueryService _documentNavigationQueryService;
+		private readonly IPublishedContentCache _publishedContentCache;
+
+		public UmbracoNodeService(
+			IDocumentNavigationQueryService documentNavigationQueryService,
+			IPublishedContentCache publishedContentCache)
 		{
-			_umbracoContextFactory = umbracoContextFactory;
+			_documentNavigationQueryService = documentNavigationQueryService;
+			_publishedContentCache = publishedContentCache;
 		}
 
-		[NotNull]
-		public IPublishedContent GetNode([NotNull]INodeType nodeType)
+		public IPublishedContent? GetNode(INodeType nodeType)
 		{
-			using (var context = _umbracoContextFactory.EnsureUmbracoContext())
+			if (!_documentNavigationQueryService.TryGetRootKeys(out var rootKeys))
 			{
-				return nodeType.FindNode(context.UmbracoContext.Content.GetAtRoot());
+				return null;
 			}
+
+			var rootNodes = rootKeys
+				.Select(key => _publishedContentCache.GetById(key))
+				.WhereNotNull();
+
+			return nodeType.FindNode(rootNodes);
 		}
 	}
 }

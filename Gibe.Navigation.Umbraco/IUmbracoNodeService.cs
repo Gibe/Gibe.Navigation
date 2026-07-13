@@ -1,11 +1,6 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gibe.Navigation.Umbraco.NodeTypes;
-using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco
 {
@@ -16,7 +11,7 @@ namespace Gibe.Navigation.Umbraco
 		/// </summary>
 		/// <param name="nodeType">The type of node to find</param>
 		/// <returns>The node represented by that key</returns>
-		IPublishedContent GetNode(INodeType nodeType);
+		IPublishedContent? GetNode(INodeType nodeType);
 	}
 
 	public class FakeUmbracoNodeService : IUmbracoNodeService
@@ -28,7 +23,7 @@ namespace Gibe.Navigation.Umbraco
 			_contentByNodeType = contentByNodeType;
 		}
 
-		public IPublishedContent GetNode(INodeType nodeKey) => _contentByNodeType[nodeKey];
+		public IPublishedContent? GetNode(INodeType nodeKey) => _contentByNodeType[nodeKey];
 	}
 
 

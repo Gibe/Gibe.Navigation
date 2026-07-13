@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gibe.Navigation.Core
+namespace Gibe.Navigation
 {
 	public static class ServiceCollectionExtensions
 	{

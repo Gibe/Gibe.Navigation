@@ -1,4 +1,4 @@
-using Gibe.Navigation.Core;
+using Gibe.Navigation;
 using GibeCommerce.CatalogSystem;
 using GibeCommerce.SiteServices.UrlProviders;
 using Microsoft.Extensions.DependencyInjection;
