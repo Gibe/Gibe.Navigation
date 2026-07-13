@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Gibe.Navigation.Core/Gibe.Navigation.Core.csproj" />
+  <Project Path="Gibe.Navigation.GibeCommerce/Gibe.Navigation.GibeCommerce.csproj" />
+  <Project Path="Gibe.Navigation.Umbraco/Gibe.Navigation.Umbraco.csproj" />
+</Solution>
