@@ -1,11 +1,10 @@
-using Gibe.Navigation;
 using Gibe.Navigation.Umbraco.Filters;
 using Gibe.Navigation.Umbraco.NodeTypes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gibe.Navigation.Umbraco
 {
-	public static class Services
+	public static class GibeNavigationServiceCollectionExtensions
 	{
 		public static void AddNavigation(this IServiceCollection services)
 		{
