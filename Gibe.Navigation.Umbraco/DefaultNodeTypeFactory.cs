@@ -12,7 +12,11 @@ namespace Gibe.Navigation.Umbraco
 
 		public DefaultNodeTypeFactory(IEnumerable<INodeType> nodeTypes)
 		{
-			_nodeTypes = nodeTypes.ToDictionary(n => n.GetType(), n => n);
+			_nodeTypes = new Dictionary<Type, INodeType>();
+			foreach (var nodeType in nodeTypes)
+			{
+				_nodeTypes.TryAdd(nodeType.GetType(), nodeType);
+			}
 		}
 
 		public INodeType GetNodeType<T>() where T : INodeType

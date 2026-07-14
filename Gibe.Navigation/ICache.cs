@@ -21,7 +21,12 @@ namespace Gibe.Navigation
 
 		public T Get<T>(string key)
 		{
-			return _memoryCache.Get<T>(key)!;
+			if (_memoryCache.TryGetValue<T>(key, out var value) && value is not null)
+			{
+				return value;
+			}
+
+			throw new KeyNotFoundException($"Cache key '{key}' not found.");
 		}
 
 		public void Add(string key, object value, TimeSpan timeSpan)

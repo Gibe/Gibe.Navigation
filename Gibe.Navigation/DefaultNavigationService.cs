@@ -57,7 +57,7 @@ namespace Gibe.Navigation
 			return new SubNavigationModel<INavigationElement>
 			{
 				SectionParent = section,
-				NavigationElements = section!.Items
+				NavigationElements = section?.Items ?? Enumerable.Empty<INavigationElement>()
 			};
 		}
 
