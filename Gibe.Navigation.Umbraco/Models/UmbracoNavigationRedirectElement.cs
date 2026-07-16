@@ -12,19 +12,20 @@ namespace Gibe.Navigation.Umbraco.Models
 {
 	public class UmbracoNavigationRedirectElement : PublishedContentModel, INavigationElement
 	{
-		private static readonly NoopPublishedValueFallback Fallback = new();
+		private readonly IPublishedValueFallback _publishedValueFallback;
 
-		public UmbracoNavigationRedirectElement(IPublishedContent content) : base(content, Fallback)
+		public UmbracoNavigationRedirectElement(IPublishedContent content, IPublishedValueFallback publishedValueFallback) : base(content, publishedValueFallback)
 		{
+			_publishedValueFallback = publishedValueFallback;
 			Items = new List<INavigationElement>();
 			ExtraProperties = new Dictionary<string, object>();
 		}
 
 		public string Title => base.Name;
 
-		public string NavTitle => this.Value<string>(Fallback, "NavTitle")!;
+		public string NavTitle => this.Value<string>(_publishedValueFallback, "NavTitle")!;
 
-		private Link? Redirect => this.Value<Link>(Fallback, "gibeNavigationRedirect");
+		private Link? Redirect => this.Value<Link>(_publishedValueFallback, "gibeNavigationRedirect");
 
 		public string Url => Redirect?.Url!;
 
@@ -34,7 +35,7 @@ namespace Gibe.Navigation.Umbraco.Models
 		public string Target => Redirect?.Target!;
 
 		public bool IsVisible => !this.HasValue("umbracoNaviHide") ||
-		                         !this.Value<bool>(Fallback, "umbracoNaviHide");
+		                         !this.Value<bool>(_publishedValueFallback, "umbracoNaviHide");
 		public bool IsConcrete => false;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
 
@@ -42,7 +43,7 @@ namespace Gibe.Navigation.Umbraco.Models
 
 		public object Clone()
 		{
-			return new UmbracoNavigationRedirectElement(this)
+			return new UmbracoNavigationRedirectElement(this, _publishedValueFallback)
 			{
 				IsActive = IsActive,
 				Items = Items.Select(i => (INavigationElement)i.Clone()).ToList(),
@@ -88,11 +89,11 @@ namespace Gibe.Navigation.Umbraco.Models
 		[Test]
 		public void Clone_Returns_Clone_Of_Element()
 		{
-			var element = new UmbracoNavigationRedirectElement(FakePublishedContent())
+			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), Fallback())
 			{
 				Items = new List<INavigationElement>
 				{
-					new UmbracoNavigationElement(FakePublishedContent(), UrlProvider())
+					new UmbracoNavigationElement(FakePublishedContent(), UrlProvider(), Fallback())
 				}
 			};
 			var clone = (UmbracoNavigationRedirectElement)element.Clone();
@@ -104,12 +105,12 @@ namespace Gibe.Navigation.Umbraco.Models
 		[Test]
 		public void HasVisibleChildren_Returns_True_If_At_Least_One_Visible_Child()
 		{
-			var element = new UmbracoNavigationRedirectElement(FakePublishedContent())
+			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), Fallback())
 			{
 				Items = new List<INavigationElement>
 				{
-					new UmbracoNavigationElement(FakePublishedContent(), UrlProvider()),
-					new UmbracoNavigationElement(FakePublishedContent(false), UrlProvider())
+					new UmbracoNavigationElement(FakePublishedContent(), UrlProvider(), Fallback()),
+					new UmbracoNavigationElement(FakePublishedContent(false), UrlProvider(), Fallback())
 				}
 			};
 
@@ -119,12 +120,12 @@ namespace Gibe.Navigation.Umbraco.Models
 		[Test]
 		public void HasVisibleChildren_Returns_False_If_At_No_Visible_Child()
 		{
-			var element = new UmbracoNavigationRedirectElement(FakePublishedContent())
+			var element = new UmbracoNavigationRedirectElement(FakePublishedContent(), Fallback())
 			{
 				Items = new List<INavigationElement>
 				{
-					new UmbracoNavigationElement(FakePublishedContent(false), UrlProvider()),
-					new UmbracoNavigationElement(FakePublishedContent(false), UrlProvider())
+					new UmbracoNavigationElement(FakePublishedContent(false), UrlProvider(), Fallback()),
+					new UmbracoNavigationElement(FakePublishedContent(false), UrlProvider(), Fallback())
 				}
 			};
 
@@ -154,6 +155,11 @@ namespace Gibe.Navigation.Umbraco.Models
 		public static IPublishedUrlProvider UrlProvider()
 		{
 			return new Mock<IPublishedUrlProvider>().Object;
+		}
+
+		public static IPublishedValueFallback Fallback()
+		{
+			return new NoopPublishedValueFallback();
 		}
 	}
 
