@@ -2,4 +2,5 @@
   <Project Path="Gibe.Navigation/Gibe.Navigation.csproj" />
   <Project Path="Gibe.Navigation.GibeCommerce/Gibe.Navigation.GibeCommerce.csproj" />
   <Project Path="Gibe.Navigation.Umbraco/Gibe.Navigation.Umbraco.csproj" />
+  <Project Path="Gibe.Navigation.Umbraco.Tests/Gibe.Navigation.Umbraco.Tests.csproj" />
 </Solution>
