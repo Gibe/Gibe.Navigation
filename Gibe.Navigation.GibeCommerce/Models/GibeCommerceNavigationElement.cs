@@ -16,15 +16,15 @@ namespace Gibe.Navigation.GibeCommerce.Models
 			IsVisible = IsVisible
 		};
 
-		public string Title { get; set; }
-		public string NavTitle { get; set; }
-		public string Url { get; set; }
+		public required string Title { get; set; }
+		public required string NavTitle { get; set; }
+		public required string Url { get; set; }
 		public bool IsActive { get; set; }
-		public IEnumerable<INavigationElement> Items { get; set; }
+		public required IEnumerable<INavigationElement> Items { get; set; }
 		public string Target => "_self";
 		public bool IsVisible { get; set; }
 		public bool IsConcrete => true;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
-		public Dictionary<string, object> ExtraProperties { get; set; }
+		public Dictionary<string, object> ExtraProperties { get; set; } = new();
 	}
 }

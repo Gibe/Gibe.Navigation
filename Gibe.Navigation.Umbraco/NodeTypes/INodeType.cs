@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace Gibe.Navigation.Umbraco.NodeTypes
 {
 	public interface INodeType
 	{
-		IPublishedContent FindNode([NotNull]IEnumerable<IPublishedContent> rootNodes);
+		IPublishedContent? FindNode(IEnumerable<IPublishedContent> rootNodes);
 	}
 
 	public class FakeNodeType : INodeType
@@ -20,7 +18,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 			_contentToReturn = contentToReturn;
 		}
 
-		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
+		public IPublishedContent? FindNode(IEnumerable<IPublishedContent> rootNodes)
 		{
 			return _contentToReturn;
 		}
@@ -35,7 +33,7 @@ namespace Gibe.Navigation.Umbraco.NodeTypes
 			_rootDocumentTypeAlias = rootDocumentTypeAlias;
 		}
 
-		public IPublishedContent FindNode(IEnumerable<IPublishedContent> rootNodes)
+		public IPublishedContent? FindNode(IEnumerable<IPublishedContent> rootNodes)
 		{
 			return rootNodes.First(x => x.ContentType.Alias == _rootDocumentTypeAlias);
 		}

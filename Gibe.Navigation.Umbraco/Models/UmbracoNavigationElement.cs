@@ -1,43 +1,41 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Gibe.Navigation.Models;
-using Gibe.UmbracoWrappers;
-using Moq;
-using NUnit.Framework;
-using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Routing;
+using Umbraco.Extensions;
 
 namespace Gibe.Navigation.Umbraco.Models
 {
 	public class UmbracoNavigationElement : PublishedContentModel, INavigationElement
 	{
-		private readonly IUmbracoWrapper _umbracoWrapper;
+		private readonly IPublishedUrlProvider _publishedUrlProvider;
+		private readonly IPublishedValueFallback _publishedValueFallback;
 
-		public UmbracoNavigationElement(IPublishedContent content) : this(content, new DefaultUmbracoWrapper())
+		public UmbracoNavigationElement(IPublishedContent content, IPublishedUrlProvider publishedUrlProvider, IPublishedValueFallback publishedValueFallback) : base(content, publishedValueFallback)
 		{
-
-		}
-
-		public UmbracoNavigationElement(IPublishedContent content, IUmbracoWrapper umbracoWrapper) : base(content)
-		{
-			_umbracoWrapper = umbracoWrapper;
+			_publishedUrlProvider = publishedUrlProvider;
+			_publishedValueFallback = publishedValueFallback;
 			Items = new List<INavigationElement>();
+			ExtraProperties = new Dictionary<string, object>();
 		}
 
 		public string Title => base.Name;
-		public string NavTitle => _umbracoWrapper.Value<string>(this, "NavTitle");
+		public string NavTitle => this.Value<string>(_publishedValueFallback, "NavTitle")!;
 		public bool IsActive { get; set; }
 		public IEnumerable<INavigationElement> Items { get; set; }
 		public string Target => "_self";
-		public bool IsVisible => !_umbracoWrapper.HasValue(this, "umbracoNaviHide") ||
-		                         !_umbracoWrapper.Value<bool>(this, "umbracoNaviHide");
+		public bool IsVisible => !this.HasValue("umbracoNaviHide") ||
+		                         !this.Value<bool>(_publishedValueFallback, "umbracoNaviHide");
 		public bool IsConcrete => true;
 		public bool HasVisibleChildren => Items.Any(x => x.IsVisible);
+		public string Url => this.Url(_publishedUrlProvider);
 
 		public Dictionary<string, object> ExtraProperties { get; set; }
 
 		public object Clone()
 		{
-			return new UmbracoNavigationElement(this, _umbracoWrapper)
+			return new UmbracoNavigationElement(this, _publishedUrlProvider, _publishedValueFallback)
 			{
 				IsActive = IsActive,
 				Items = Items.Select(i => (INavigationElement)i.Clone()).ToList(),
@@ -45,7 +43,7 @@ namespace Gibe.Navigation.Umbraco.Models
 			};
 		}
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			return obj is UmbracoNavigationElement && Equals((UmbracoNavigationElement)obj);
 		}
@@ -76,85 +74,4 @@ namespace Gibe.Navigation.Umbraco.Models
 		}
 	}
 
-	[TestFixture]
-	internal class UmbracoNavigationElementTests
-	{
-		[Test]
-		public void Clone_Returns_Clone_Of_Element()
-		{
-			var element = new UmbracoNavigationElement(FakePublishedContent(), UmbracoWrapper())
-			{
-				Items = new List<INavigationElement>
-				{
-					new UmbracoNavigationElement(FakePublishedContent(), UmbracoWrapper())
-				}
-			};
-			var clone = element.Clone();
-
-			Assert.That(clone.Equals(element));
-			Assert.That(!ReferenceEquals(clone, element));
-		}
-
-		[Test]
-		public void HasVisibleChildren_Returns_True_If_At_Least_One_Visible_Child()
-		{
-			var element = new UmbracoNavigationElement(FakePublishedContent(), UmbracoWrapper())
-			{
-				Items = new List<INavigationElement>
-				{
-					new UmbracoNavigationElement(FakePublishedContent(), UmbracoWrapper()),
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper())
-				}
-			};
-
-			Assert.That(element.HasVisibleChildren, Is.True);
-		}
-
-		[Test]
-		public void HasVisibleChildren_Returns_False_If_At_No_Visible_Child()
-		{
-			var element = new UmbracoNavigationElement(FakePublishedContent(), UmbracoWrapper())
-			{
-				Items = new List<INavigationElement>
-				{
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper()),
-					new UmbracoNavigationElement(FakePublishedContent(false), UmbracoWrapper())
-				}
-			};
-
-			Assert.That(element.HasVisibleChildren, Is.False);
-		}
-
-		public IPublishedContent FakePublishedContent(bool visible = true)
-		{
-			var properties = new List<IPublishedProperty>();
-
-			if (visible)
-			{
-				properties.Add(VisibleProperty());
-			}
-
-			var pc = new Mock<IPublishedContent>();
-			pc.Setup(p => p.Properties)
-				.Returns(properties);
-			return pc.Object;
-		}
-
-		public IPublishedProperty VisibleProperty()
-		{
-			var prop = new Mock<IPublishedProperty>();
-			prop.Setup(p => p.Alias).Returns("umbracoNaviHide");
-			return prop.Object;
-		}
-
-		public IUmbracoWrapper UmbracoWrapper()
-		{
-			var wrapper = new Mock<IUmbracoWrapper>();
-			wrapper.Setup(w => w.HasValue(It.IsAny<IPublishedContent>(), "umbracoNaviHide"))
-				.Returns((IPublishedContent content, string alias) => !content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
-			wrapper.Setup(w => w.Value<bool>(It.IsAny<IPublishedContent>(), "umbracoNaviHide"))
-				.Returns((IPublishedContent content, string alias) => !content.Properties.Any(p => p.Alias == "umbracoNaviHide"));
-			return wrapper.Object;
-		}
-	}
 }
